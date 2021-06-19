@@ -1,0 +1,85 @@
+{% extends "admin/adminbase.html" %}
+{% load static %}
+
+{% block admindepartment %}class="active"{% endblock %}
+{% block breadcrumb %}Departments{% endblock %}
+{% block admins %}
+                  
+    <div class="mt-5 projects">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6>Department</h6>
+                <span class="las la-ellipsis-h"></span>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table width="100%" class="">
+                        <thead>
+                            <tr>
+                                <td>Sl No</td>
+                                <td></td>
+                                <td>Dept Code</td>
+                                <td></td>
+                                <td></td>
+                                <td>Dept Name</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="{% url 'admindepartment' %}" method="POST" class="needs-validation" novalidate>
+                                {% csrf_token %}
+                                <tr>
+                                    <td colspan="6">
+                                        {% if message %}
+                                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                                            <strong>{{ messageheader }}</strong> {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-border-bottom"> 
+                                    <td colspan="6">
+                                        <div class="row g-3 align-items-center adminform">
+                                            <div class="col-sm-1">
+                                                <i class="bi bi-plus-circle text-danger lead"></i>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Dept Code" name="depcode" autocomplete="off" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-sm" placeholder="Dept Name" name="depname" autocomplete="off" required>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="adminform">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" value="submit"><i class="far fa-paper-plane"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </form>
+                            {% for list in departments %}
+                            <tr class="bs-table-row">
+                                <td>{{forloop.counter}}</td>
+                                <td></td>
+                                <td>{{list.code}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{list.name}}</td>								
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td></td>
+                                <td><img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded"></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

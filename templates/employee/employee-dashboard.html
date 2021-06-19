@@ -1,0 +1,226 @@
+{% extends "employee/employee-base.html" %}
+{% load static %}
+
+{% block employeedashboard %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Dashboard</li>{% endblock %}
+{% block employee %}
+
+<main>
+    <div class="mt-3">
+        <div class="projects mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <button class="nav-link {% if pendingactive %}active{% endif %}" id="nav-pending-tab" data-bs-toggle="tab" data-bs-target="#nav-pending" type="button" role="tab" aria-controls="nav-pending" aria-selected="true">Pending Projects</button>
+                          <button class="nav-link {% if pastactive %}active{% endif %}" id="nav-past-tab" data-bs-toggle="tab" data-bs-target="#nav-past" type="button" role="tab" aria-controls="nav-past" aria-selected="false">Past Projects</button>
+                          <button class="nav-link {% if otheractive %}active{% endif %}" id="nav-others-tab" data-bs-toggle="tab" data-bs-target="#nav-others" type="button" role="tab" aria-controls="nav-others" aria-selected="false">Others Projects</button>
+                        </div>
+                    </nav>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade {% if pendingactive %}show active{% endif %}" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Sl No</td>
+                                            <td>Project Title</td>
+                                            <td>Due Date</td>
+                                            <td>Priority</td>
+                                            <td>Options</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in pending %}
+                                        <tr class="bs-table-row">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{file.title | title}}</td>
+                                            <td>{{file.duedate | date:"d M, Y"}}</td>
+                                            <td>
+                                                {% if file.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                                {% if file.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                                {% if file.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                            </td>
+                                            <td class="pl-30">
+                                                <a href="{% url 'keymodal' file.title file.id %}"><i class="bi bi-download text-success text-center fs-6"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr class="bs-table-row">
+                                            <td></td> 
+                                            <td colspan="3">
+                                                <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                            </td>
+                                            <td></td>    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade {% if pastactive %}show active{% endif %}" id="nav-past" role="tabpanel" aria-labelledby="nav-past-tab">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Sl No</td>
+                                            <td>Project Title</td>
+                                            <td>Due Date</td>
+                                            <td>Priority</td>
+                                            <td>Options</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in past %}
+                                        <tr class="bs-table-row">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{file.projectid.title | title}}</td>
+                                            <td>{{file.projectid.duedate | date:"d M, Y"}}</td>
+                                            <td>
+                                                {% if file.projectid.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                                {% if file.projectid.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                                {% if file.projectid.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                            </td>
+
+                                            <td>
+                                                {% if file.status == 'Completed' %}
+                                                <div class="checkbox checkbox-success">
+                                                    <input class="styled" type="checkbox" checked disabled>
+                                                    <label>
+                                                        Completed
+                                                    </label>
+                                                </div>
+                                                {% else %}
+                                                <form id="completedform{{forloop.counter}}" action="{% url 'completed' file.projectid.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="checkbox checkbox-success">
+                                                        <input id="completed{{forloop.counter}}" name="completed" value="progress" class="styled" type="checkbox" onchange="$('#completedform{{forloop.counter}}').submit();" >
+                                                        <label for="completed{{forloop.counter}}">
+                                                            Completed
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr class="bs-table-row">
+                                            <td></td> 
+                                            <td colspan="3">
+                                                <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                            </td>
+                                            <td></td>    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade {% if otheractive %}show active{% endif %}" id="nav-others" role="tabpanel" aria-labelledby="nav-others-tab">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Sl No</td>
+                                            <td>Project Title</td>
+                                            <td>Due Date</td>
+                                            <td>Priority</td>
+                                            <td>Options</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in other %}
+                                        <tr class="bs-table-row">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{file.title | title}}</td>
+                                            <td>{{file.duedate | date:"d M, Y"}}</td>
+                                            <td>
+                                                {% if file.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                                {% if file.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                                {% if file.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                            </td>
+                                            <td class="pl-30">
+                                                <a href="{% url 'keymodal' file.title file.id %}"><i class="bi bi-download text-success text-center fs-6"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr class="bs-table-row">
+                                            <td></td> 
+                                            <td colspan="3">
+                                                <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                            </td>
+                                            <td></td>    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+
+{% block employee-decryption %}
+    {% if modal %}
+    <div class="container-fluid">
+        <div class="decryption">
+            <div class="col-sm-12 text-end">
+                <button class="close pb-3" type="button" id="closeButton">&#x2715;</button>
+            </div>
+            <div class="col-sm-12 text-light decryption-content">
+                <p class="fs-5 mb-3">Key Details</p>
+
+                <form class="needs-validation mt-5" novalidate action="{% url 'download' title id %}" method="post">
+                    {% csrf_token %}
+                    {% if message %}
+                    <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                        <strong>{{ messageheader }}</strong> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3 mt-3 position-relative">
+                        <input type="hidden" name="id" value="{{id}}">
+                        <label for="decryptionkey" class="form-label">Decryption Key</label>
+                        <input type="text" class="form-control form-control-sm register" placeholder="Decryption Key" id="decryptionkey" name="decryptionkey" autocomplete="off" required>
+
+                        <div class="invalid-tooltip">
+                            Please provide a Decryption Key
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-3">
+                            <a href="{% url 'keyrequest' id %}"><i class="las la-key"></i> Send Key Request</a>
+                        </div>
+                    </div>
+
+                    <div class="gap-2 pt-3">
+                        <button type="submit" class="btn btn-outline-success btn-sm float-end rounded-pill" id="decryptionsubmit" value="decryptionsubmit"><i class="las la-download"></i> Download</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block employee-base-script %}
+    <script>
+        $(document).ready(function() {
+            $('#closeButton').on('click', function(e) {
+                $('.decryption').remove();
+            });
+        });
+    </script>
+{% endblock %}

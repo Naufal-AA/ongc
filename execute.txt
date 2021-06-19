@@ -1,0 +1,61 @@
+# ------------------------------------------------- #
+# Postgreesql Connection
+#CMD
+> psql -U username -h hostname  #eg: psql -U user-1 -h localhost
+    > create database db_name;
+# ------------------------------------------------- #
+
+> pipreqs filepath
+> python manage.py collectstatic # when DEBUG=False
+> python manage.py makemigrations
+> python manage.py migrate
+> python manage.py createsuperuser
+    >username:
+    >password
+    >email
+
+# add admin and manager via django shell with group
+> python manage.py shell
+    In [1]: from manager.models import * # myapp models
+
+    In [2]: from django.contrib.auth.models import Group
+
+    In [3]: Group.objects.create(name='employee')
+    Out[3]: <Group: employee>
+
+    In [4]: Group.objects.create(name='manager')
+    Out[4]: <Group: manager>
+
+    In [5]: Group.objects.create(name='admin')
+    Out[5]: <Group: admin>
+
+    In [6]: user1 = User.objects.create_user(username='user1', email='abc@gmail.com', password='password', first_name='Subash', last_name='Kumar', type=User.Types.MAN 
+    ...: , gender='male', phone='+918136919446')
+
+    In [7]: user1.save()
+
+    In [8]: manager = Manager.objects.create(user=user1)
+
+    In [9]: manager.save()
+
+    In [10]: group1 = Group.objects.get(name='manager')
+
+    In [11]: user1.groups.add(group1)
+
+    In [12]: user1.save()
+
+    In [13]: user2 = User.objects.create_user(username='user2', email='xyz@gmail.com', password='password', first_name='Rachel', last_name='McAdams', type=Us 
+        ...: er.Types.ADM, gender='female', phone='+917736478312')
+
+    In [14]: admin = Admin.objects.create(user=user2)
+
+    In [15]: admin.save()
+
+    In [16]: group2 = Group.objects.get(name='admin')
+
+    In [17]: user2.groups.add(group2)
+
+    In [18]: user2.save()
+
+# run server
+> python manage.py runserver

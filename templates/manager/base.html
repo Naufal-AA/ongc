@@ -1,0 +1,733 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    {% block style %} {% endblock %}
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+
+    <!---- Multiple selector css / jquery - amsify ---->
+    <link href="{% static 'css/amsify.suggestags.css' %}" rel="stylesheet" type="text/css">
+
+    <!------ Bootstrap icon ------>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!--- Line Awesome Icon --->
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <!-- Fontaweesome icon -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+	<!-- Favicons -->
+	<link rel="shortcut icon" sizes="16x16" href="{% static 'favicon/favicon.png' %}" type="image/png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'favicon/favicon-144.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'favicon/favicon-114.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'favicon/favicon-72.png' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'favicon/favicon-57.png' %}">
+
+    <title>{% block title %}ONGC - Oil and Natural Gas Corporation Limited{% endblock %}</title>
+  </head>
+  <body>
+    <div id="loader"></div>
+
+    <div id="content">
+    <!-- Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark my-nav fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+            <img src="{% static 'img/logo.png' %}" alt="" width="50" height="50" class="d-inline-block align-text-middle">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"></div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% block homeactive %}{% endblock %}" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle  {% block aboutactive %}{% endblock %}" href="{% url 'about' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        About Us
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'about' %}">Our Growth Story</a></li>
+                        <li><a class="dropdown-item" href="{% url 'technology' %}">Technology</a></li>
+                        <li><a class="dropdown-item" href="{% url 'history' %}">History</a></li>
+                        <li><a class="dropdown-item" href="{% url 'vision' %}">Vision and Mission</a></li>
+                        <li><a class="dropdown-item" href="{% url 'contact' %}">Contact Us</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% block sustainabilityactive %}{% endblock %}" href="{% url 'sustainability' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sustainability
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'sustainability' %}">Environment</a></li>
+                        <li><a class="dropdown-item" href="{% url 'carbon' %}">Carbon Management</a></li>
+                        <li><a class="dropdown-item" href="{% url 'health' %}">Health And Safety</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% block investoractive %}{% endblock %}" href="{% url 'investor' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Investors
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'investor' %}">Policies</a></li>
+                        <li><a class="dropdown-item" href="{% url 'notices' %}">Notices</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% block mediaactive %}{% endblock %}" href="{% url 'media' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Media
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'media' %}">ONGC Bulletin</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block payactive %}{% endblock %}" href="{% url 'pay' %}">Pay</a>
+                    </li>
+                </ul>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.type == "MAN" %}
+                        <ul class="navbar-nav user-ui">
+                            <li class="nav-item my-text-secondary">
+                                <a class="nav-link  {% block useractive %}{% endblock %}" href="{% url 'dashboard' %}">Hi, {{request.user.username}}!</a>
+                            </li>
+                        </ul>
+
+                    {% elif request.user.type == "Emp" %}
+                        <ul class="navbar-nav user-ui">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle  {% block useractive1 %}{% endblock %}" href="{% url 'employeedashboard' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hi, {{request.user.username}}!
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        
+                                <!-- Button trigger modal -->
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#admin-profile" href="#admin-profile">
+                                        <span class="las la-user"></span>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-user-name" href="#change-user-name">
+                                        <span class="las la-user-edit"></span>
+                                        <span>Change Username</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-password" href="#change-password">
+                                        <span class="las la-lock-open"></span>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}"><span class="las la-sign-out-alt"></span>&nbsp; Sign Out</a></li>
+                                </ul>
+                            </li>
+                            {% block home %}<li class="nav-item ps-3"><a class="nav-link" href="{% url 'employeedashboard' %}"><i class="bi bi-house-door"></i></a></li>{% endblock %}
+                        </ul>
+                    {% elif request.user.type == "ADM" %}
+                        <ul class="navbar-nav user-ui">
+                            <li class="nav-item my-text-secondary">Hi, {{request.user.username}}!</li>
+                            {% block home1 %}<li class="nav-item ps-3"><a class="nav-link" href="{% url 'admindashboard' %}"><i class="bi bi-house-door"></i></a></li>{% endblock %}
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav user-ui">
+                            <li class="nav-item my-text-secondary">Hi, {{request.user.username}}!</li>
+                        </ul>
+                    {% endif %}
+                {% else %}
+                <ul class="navbar-nav user-ui">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-plus lead"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <!-- Button trigger modal -->
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#employee-login" href="#employee-login"><i class="far fa-user"></i> &nbsp; Employee</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#manager-login" href="#manager-login"><i class="fas fa-user-shield"></i>&nbsp; Managing Director</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar Close-->
+
+    <!-- Main content -->
+    {% block body %}
+        <!-- Main Content Area -->
+    {% endblock %}
+    <!-- End Main -->
+
+    {% block footer %}
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-sm-4 offset-sm-1">
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Site Map</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-5">
+                <p>Copyright © 2021 <a href="#">Oil and Natural Gas Corporation PVT LTD.</a> All rights reserved.</p>
+            </div>
+
+            <div class="col-sm-2 social">
+                <a href="https://www.facebook.com/ONGCLimited/"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/ONGC_"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/company/ongc/"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/ongcofficial/"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/c/ONGCLtd1/"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+    <!--Footer -->
+    {% endblock %}
+
+    <a class="top-link hide" href="" id="js-top">
+    </a>
+
+    <!-- Managing Director Login Modal Dialog -->
+    <div class="modal fade" id="manager-login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ManagerLoginLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-0 mb-0 pb-0">
+                    <h5 class="modal-title text-secondary" id="ManagerLoginLabel"></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                </div>
+
+                <div class="modal-body m-0 p-0">
+                    <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    <h6 class="text-muted text-center mt-1">Managing Director</h6>
+                </div>
+
+                <div class="col-md-8 offset-md-2 mt-4 p-3">
+                    <form action="{% url 'loginmanager' %}" method="POST">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-person input-group-text" id="username"></i>
+                            <input type="text" class="form-control form-control-sm" placeholder="Username" name="manageruser" aria-label="Username" aria-describedby="username" autocomplete="off" autofocus>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-shield-lock input-group-text" id="password"></i>
+                            <input type="password" class="form-control form-control-sm" placeholder="Password" name="managerpassword" id="password2" aria-label="password" aria-describedby="password" autocomplete="off">
+                            <span class="eye" onclick="toggle2()">
+                                <i id="hide1" class="bi bi-eye-fill"></i>
+                                <i id="hide2" class="bi bi-eye-slash-fill"></i>
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" class="forgot" data-bs-target="#forgot-password" data-bs-toggle="modal" data-bs-dismiss="modal">forgot password</a>
+                        </div>
+
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="signinmanager" name="signinmanager">Sign In &nbsp;<i class="bi bi-box-arrow-right"></i></button>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Managing Director Login Modal Dialog-->
+    <!-- Forgot Password Modal Dialog -->
+    <div class="modal fade" id="forgot-password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="forgot-passwordLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-0 mb-0 pb-0">
+                    <h5 class="modal-title" id="forgot-passwordLabel"></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                </div>
+                
+                <div class="modal-body m-0 p-0">
+                    <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    <h6 class="text-muted text-center mt-1">Managing Director</h6>
+                </div>
+
+                {%if reset %}
+                <div class="col-sm-8 offset-sm-2 mt-3 mb-3">
+                    <h4 class="text-success">Reset Your Password</h4>
+                    <small class="small text-muted">Note:Using your old password value will result in an error - only new password values will be accepted at reset.</small>
+                </div>
+                <div class="col-md-8 offset-md-2 mt-3">
+                    <form class="needs-validation" novalidate method="POST">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{messageclass}} alert-dismissible fade show" role="alert">
+							<strong>{{messageheader}}</strong> {{message}}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+                        {% endif %}
+                        
+                        <div class="mt-3 mb-3 position-relative">
+                            <input type="password" class="form-control form-control-sm register" placeholder="Change Your Password" name="resetpasswordmanager" id="resetpasswordmanager" minlength="4" maxlength="20" required>
+                            <div class="invalid-tooltip">
+                                Your password must be 4-20 characters long.
+                            </div>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <input type="password" class="form-control form-control-sm register" placeholder="Confirm Your Password" name="confirm_resetpasswordmanager" id="confirm_resetpasswordmanager" required>
+                            <div class="invalid-tooltip">
+                                Password Does not Match
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-1" value="signin">Reset password</button>
+                        </div>
+                        <p class="text-muted text-center fw-lighter mt-3 mb-5">
+                            <a href="" class="forgot register-signin" data-bs-target="#manager-login" data-bs-toggle="modal" data-bs-dismiss="modal">Back to Sign In</a>
+                        </p>
+                      </form>
+                </div>
+
+                {% else %}
+                <div class="col-sm-8 offset-sm-3 mt-3 mb-0">
+                    <h4 class="text-success">Forgot Your Password?</h4>
+                    <small class="small text-muted">Please enter the email you use to sign in</small>
+                </div>
+                <div class="col-md-8 offset-md-2 mt-3">
+                    <form class="needs-validation" novalidate action="{% url 'loginmanager' %}" method="POST">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>An email has been sent to the supplied email address.</strong> Follow the instruction in the email to reset your password.
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+                        {% endif %}
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-person input-group-text" id="forgotusermanager"></i>
+                            <input type="text" class="form-control form-control-sm" placeholder="Username"  name="forgotusermanager" aria-label="forgotusermanager" aria-describedby="forgotusermanager" autocomplete="off" autofocus required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-envelope input-group-text" id="forgotemailmanager"></i>
+                            <input type="email" class="form-control form-control-sm" placeholder="Email"  name="forgotemailmanager" aria-label="forgotemailmanager" aria-describedby="forgotemailmanager" autocomplete="off" required>
+                        </div>
+                        
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-1" value="resetmanager" name="resetmanager">Request password reset</button>
+                        </div>
+                        <p class="text-muted text-center fw-lighter mt-3 mb-5">
+                            <a href="" class="forgot register-signin" data-bs-target="#manager-login" data-bs-toggle="modal" data-bs-dismiss="modal">Back to Sign In</a>
+                        </p>
+                      </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Forgot Password Modal Dialog-->
+
+    <!-- Employee Login Modal Dialog -->
+    <div class="modal fade" id="employee-login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="EmployeeLoginLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-0 mb-0 pb-0">
+                    <h5 class="modal-title" id="EmployeeLoginLabel"></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                </div>
+
+                <div class="modal-body m-0 p-0">
+                    <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    <h6 class="text-muted text-center mt-1">Employee</h6>
+                </div>
+
+                <div class="col-md-8 offset-md-2 mt-4 p-3">
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        {% if primarymessage %}
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Note:</strong> {{ primarymessage }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-person input-group-text" id="username"></i>
+                            <input type="text" class="form-control form-control-sm" placeholder="Username" name="username" aria-label="Username" aria-describedby="username" autocomplete="off" autofocus>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-shield-lock input-group-text" id="password"></i>
+                            <input type="password" class="form-control form-control-sm" placeholder="Password" id="password1" name="password" aria-label="password" aria-describedby="password" autocomplete="off">
+                            <span class="eye" onclick="toggle1()">
+                                <i id="hide1" class="bi bi-eye-fill"></i>
+                                <i id="hide2" class="bi bi-eye-slash-fill"></i>
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" class="forgot" data-bs-target="#forgot-password1" data-bs-toggle="modal" data-bs-dismiss="modal">forgot password</a>
+                        </div>
+
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="signinemployee" name="signinemployee">Sign In &nbsp;<i class="bi bi-box-arrow-right"></i></button>
+                        </div>
+                        <p class="text-muted text-center fw-lighter mt-3 pt-3 mb-0 pb-0">
+                            New User? <a href="" class="forgot register-signin" data-bs-target="#employee-register" data-bs-toggle="modal" data-bs-dismiss="modal">&nbsp;Register</a>
+                        </p>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Employee Login Modal Dialog-->
+
+    <!-- Forgot Password Modal Dialog -->
+    <div class="modal fade" id="forgot-password1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="forgot-password1Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-0 mb-0 pb-0">
+                    <h5 class="modal-title" id="forgot-password1Label"></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                </div>
+                
+                <div class="modal-body m-0 p-0">
+                    <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    <h6 class="text-muted text-center mt-1">Employee</h6>
+                </div>
+                
+                {%if reset %}
+                <div class="col-sm-8 offset-sm-2 mt-3 mb-3">
+                    <h4 class="text-success">Reset Your Password</h4>
+                    <small class="small text-muted">Note:Using your old password value will result in an error - only new password values will be accepted at reset.</small>
+                </div>
+                <div class="col-md-8 offset-md-2 mt-3">
+                    <form class="needs-validation" novalidate method="POST">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{messageclass}} alert-dismissible fade show" role="alert">
+							<strong>{{messageheader}}</strong> {{message}}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+                        {% endif %}
+                        
+                        <div class="mt-3 mb-3 position-relative">
+                            <input type="password" class="form-control form-control-sm register" placeholder="Change Your Password" name="resetpassword" id="resetpassword" minlength="4" maxlength="20" required>
+                            <div class="invalid-tooltip">
+                                Your password must be 4-20 characters long.
+                            </div>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <input type="password" class="form-control form-control-sm register" placeholder="Confirm Your Password" name="confirm_resetpassword" id="confirm_resetpassword" required>
+                            <div class="invalid-tooltip">
+                                Password Does not Match
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-1" value="signin">Reset password</button>
+                        </div>
+                        <p class="text-muted text-center fw-lighter mt-3 mb-5">
+                            <a href="" class="forgot register-signin" data-bs-target="#employee-login" data-bs-toggle="modal" data-bs-dismiss="modal">Back to Sign In</a>
+                        </p>
+                      </form>
+                </div>
+
+                {% else %}
+
+                <div class="col-sm-8 offset-sm-3 mt-3 mb-0">
+                    <h4 class="text-success">Forgot Your Password?</h4>
+                    <small class="small text-muted">Please enter the email you use to sign in</small>
+                </div>
+                <div class="col-md-8 offset-md-2 mt-3">
+                    <form class="needs-validation" novalidate action="{% url 'login' %}" method="POST">
+                        {% csrf_token %}
+                        {% if message1 %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>An email has been sent to the supplied email address.</strong> Follow the instruction in the email to reset your password.
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+                        {% endif %}
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-person input-group-text" id="forgotuser"></i>
+                            <input type="text" class="form-control form-control-sm" placeholder="Username"  name="forgotuser" aria-label="forgotuser" aria-describedby="forgotuser" autocomplete="off" autofocus required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <i class="bi bi-envelope input-group-text" id="forgotemail"></i>
+                            <input type="email" class="form-control form-control-sm" placeholder="Email"  name="forgotemail" aria-label="forgotemail" aria-describedby="forgotemail" autocomplete="off" required>
+                        </div>
+                        
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-1" value="resetemployee" name="resetemployee">Request password reset</button>
+                        </div>
+                        <p class="text-muted text-center fw-lighter mt-3 mb-5">
+                            <a href="" class="forgot register-signin" data-bs-target="#employee-login" data-bs-toggle="modal" data-bs-dismiss="modal">Back to Sign In</a>
+                        </p>
+                      </form>
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Forgot Password Modal Dialog-->
+
+    <!-- Employee Register modal dialog -->
+    <div class="modal fade" id="employee-register" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="employee-registerLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header mt-0 mb-0 pb-0">
+                    <h5 class="modal-title" id="employee-registerLabel"></h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                </div>
+
+                <div class="modal-body m-0 p-0">
+                    <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                </div>
+
+                {% if mail_message %}
+                <div class="col-sm-10 offset-sm-1 mt-3 p-3">
+                    <div class="verify-email">
+                        <h4 class="mb-3"> Verify Your Email</h4>
+
+                        <div><small>We have sent an email to <span class="text-success">{{ email_to }}</span></small></div>
+
+                        <div class="mt-3">
+                            <small>
+                                You need to verify your email to continue.
+                                if you have not recieved the verification email, Please check your "Spam" or "Bulk Email" folder.
+                            </small>
+                        </div>
+
+                        <div class="mt-3 pt-3 text-center">
+                            <small class="text-center">Still can't find the email?</small>
+                        </div>
+
+                        <div class="text-center mb-3 pt-3">
+                            <button class="btn btn-success btn-sm"><a href=""> Resend Email </a></button>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="col-sm-10 offset-sm-1 mt-5 p-3">
+
+                    <form class="needs-validation" novalidate action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3 row">
+                            <div class="col position-relative">
+                                <input type="text" class="form-control form-control-sm register" placeholder="First Name" name="fname" pattern="^[A-Za-z]+$" autocomplete="off" autofocus required>
+                                <div class="invalid-tooltip">
+                                    Please provide a valid Name.
+                                </div>
+                            </div>
+
+                            <div class="col position-relative">
+                                <input type="text" class="form-control form-control-sm register" placeholder="Last Name" name="lname" pattern="^[A-Za-z ]+$" autocomplete="off">
+                                <div class="invalid-tooltip">
+                                    Please provide a valid Name.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-control form-control-sm mb-3 p-0 m-0 gender-form">
+                            <div class="form-check form-check-inline p-0 ml-0">
+                                <label class="form-check-label text-small text-muted fs-6" for="gender">Gender&nbsp;:</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input check" type="radio" name="gender" id="male" value="male" required>
+                                <label class="form-check-label text-small text-muted" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input check" type="radio" name="gender" id="female" value="female" required>
+                                <label class="form-check-label text-small text-muted" for="female">Female</label>
+                            </div>
+                            <div class="form-check form-check-inline position-relative">
+                                <input class="form-check-input check" type="radio" name="gender" id="others" value="others" required>
+                                <label class="form-check-label text-small text-muted" for="others">Others</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <input type="email" class="form-control form-control-sm register" placeholder="email" name="email" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid email.
+                            </div>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <input class="form-control form-control-sm register" list="designation" id="exampleDataList" placeholder="Enter Designation..." name="designation" required>
+
+                            <datalist id="designation" class="dropdown-menu-dark">
+                                {% for option in desoption %}
+                                <option id="options" class="dropdown-menu-dark">{{option.name}}</option>
+                                {% empty %}
+                                <option id="options" class="dropdown-menu-dark">Nothing</option>
+                                {% endfor %}
+                                <!--
+                                <option id="options" class="dropdown-menu-dark">Senior Engineer</option>
+                                <option id="options" class="dropdown-menu-dark">Junior Engineer</option>
+                                <option id="options" class="dropdown-menu-dark">Contractors</option>
+                                <option id="options" class="dropdown-menu-dark">Agencies</option>
+                                <option id="options" class="dropdown-menu-dark">Subcontractors</option>
+                                <option id="options" class="dropdown-menu-dark">Tunnel Operator</option>
+                                <option id="options" class="dropdown-menu-dark">Apprentices</option>
+                                <option id="options" class="dropdown-menu-dark">General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">Chief General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">Production General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">Construction General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">Deputy General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">Financial Deputy General Manager</option>
+                                <option id="options" class="dropdown-menu-dark">General manager-Human Resources</option>
+                                <option id="options" class="dropdown-menu-dark">Deputy General Manager (DGM) Production</option>
+                                -->
+                            </datalist>
+                        </div>
+                        <div class="mb-3 mt-3 row">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control form-control-sm register text-center disabled" name="code" value="+91" disabled readonly>
+                            </div>
+                            <div class="col-sm-10 position-relative">
+                                <input type="tel" class="form-control form-control-sm register" placeholder="Phone Number" name="phone" pattern="(7/8/9)?[7-9][0-9]{9}$" autocomplete="off" required>
+                                <div class="invalid-tooltip">
+                                    Please provide a valid Phone.
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3 position-relative">
+                            <input type="text" class="form-control form-control-sm register" placeholder="Username" name="username" pattern="^[0-9A-Za-z-_@.+]*$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Username contain only letters, numbers, and @.+-_ characters
+                            </div>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <input type="password" class="form-control form-control-sm register" placeholder="password" name="password" id="password" minlength="4" maxlength="20" required>
+
+                            <div class="invalid-tooltip">
+                                Your password must be 4-20 characters long
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="register">Register &nbsp;<i class="bi bi-person-check"></i></button>
+                        </div>
+
+                        <p class="text-muted text-center fw-lighter mt-3 pt-3 mb-0 pb-0">
+                            Already Registered?<a href="" class="forgot register-signin" data-bs-target="#employee-login" data-bs-toggle="modal" data-bs-dismiss="modal">&nbsp;Sign In</a>
+                        </p>
+                      </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- employee Register modal dialog -->
+    </div>
+
+
+    <!-- JQuery, Main Js, and backtodrop js -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    
+    <!-- Amsify Plugin -->
+    <script type="text/javascript" src="{% static 'js/jquery.amsify.suggestags.js' %}"></script>
+	
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/backtotop.js' %}"></script>
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
+    <!-- Main content -->
+    {% block script %}
+        <!-- any perticular script on that page -->
+        {% if modalscript %}
+            {{ modalscript }}
+        {% endif %}
+    {% endblock %}
+    <!-- End script -->
+
+
+
+    <script>
+		window.onload=function(){
+			document.getElementById('loader').style.display="none";
+			document.getElementById('content').style.display="block";
+		};
+    </script>
+
+    <script>
+        var password = document.getElementById("resetpassword")
+        , confirm_password = document.getElementById("confirm_resetpassword");
+
+        function validatePassword(){
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Does not Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+        }
+
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+    </script>
+
+    <script>
+        var password1 = document.getElementById("resetpasswordmanager")
+        , confirm_password1 = document.getElementById("confirm_resetpasswordmanager");
+
+        function validatePassword1(){
+        if(password1.value != confirm_password1.value) {
+            confirm_password1.setCustomValidity("Passwords Does not Match");
+        } else {
+            confirm_password1.setCustomValidity('');
+        }
+        }
+
+        password1.onchange = validatePassword1;
+        confirm_password1.onkeyup = validatePassword1;
+    </script>
+  </body>
+</html>

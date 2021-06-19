@@ -1,0 +1,64 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block aboutactive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">About ONGC</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'about' %}">About ONGC</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Vision and Mission</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Vision and Mission</h3>
+            <p class="text-end small">Last updated on: 15 March 2021 12:00:00 pm</p>
+
+
+            <div class="col-sm-12">
+                <img src="{% static 'images/ongc/vision_and_mission.jpg' %}" alt="ONGC - Vision &amp; Mission"  title="ONGC - Global leader in integrated energy business" class="img-fluid rounded w-100 mb-3">
+
+                <h5 dir="ltr">Vision</h5>
+
+                <p dir="ltr">To be global leader in integrated energy business through sustainable growth, knowledge excellence and exemplary governance practices.</p>
+
+                <h5 dir="ltr">Mission</h5>
+ 
+                <p dir="ltr" class="lead">World Class</p>
+
+                <ul class="ongc-ul" dir="ltr">
+                    <li>Dedicated to excellence by leveraging competitive advantages in R&amp;D and technology with involved people.</li>
+                    <li>Imbibe high standards of business ethics and organizational values.</li>
+                    <li>Abiding commitment to safety, health and environment to enrich quality of community life.</li>
+                    <li>Foster a culture of trust, openness and mutual concern to make working a stimulating and challenging experience for our people.</li>
+                    <li>Strive for customer delight through quality products and services.</li>
+                </ul>
+
+                <h5 dir="ltr">Integrated In Energy Business</h5>
+
+                <ul class="ongc-ul" dir="ltr">
+                    <li>Focus on domestic and international oil and gas exploration and production business opportunities.</li>
+                    <li>Provide value linkages in other sectors of energy business.</li>
+                    <li>Create growth opportunities and maximize shareholder value.</li>
+                </ul>
+
+                <h5 dir="ltr">Dominant Indian Leadership</h5>
+
+                <ul class="ongc-ul" dir="ltr">
+                    <li>Retain dominant position in Indian petroleum sector and enhance India's energy availability.</li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

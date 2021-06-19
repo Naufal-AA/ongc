@@ -1,0 +1,391 @@
+{% extends "manager/base.html" %}
+{% load static %}
+{% load to_newline %}
+
+{% block style %}
+    <!--- LightSlider ---->
+    <link rel="stylesheet" href="{% static 'css/lightslider.css' %}">
+{% endblock %}
+{% block homeactive %}active{% endblock %}
+
+{% block body %}
+
+    <!-- banner -->
+    <header class="main-header" id="top-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-8">
+                    <div class="caption1">
+                        <h3 class="color-light text-capitalize animated bounceInDown visible" data-animation="bounceInDown" data-animation-delay="100">
+                            <span class="alpha10">Oil and Natural Gas Corporation</span><br>
+                        </h3>
+                        <p class="animated bounceInLeft visible" data-animation="bounceInLeft" data-animation-delay="100">
+                            Oil and Natural Gas Corporation is an Indian government owned corporation and multinational crude oil and gas entity. Its registered office is in New Delhi. It is owned by the Ministry of Petroleum and Natural Gas, Government of India. 
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8">
+                    <div class="header-button">
+                        <a href="{% url 'about' %}" class=""><button type="button" class="btn btn-outline-light btn-block">Read More &raquo;</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- banner Close-->
+
+    <div class="pt-3 pb-3 carousel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-7">
+                    
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{% static 'images/1.jpg' %}" class="d-block w-100 rounded" alt="...">
+                                
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>CMD and Functional Directors</h5>
+                                    <p>Subhash Kumar assumes additional charge of the post of CMD ONGC</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="{% static 'images/2.jpg' %}" class="d-block w-100 rounded" alt="...">
+
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>The ONGC Offices in Delhi</h5>
+                                    <p>The Oil and Natural Gas Corporation Offices in Delhi is designed by Hafeez Contractor Architects</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="{% static 'images/3.jpg' %}" class="d-block w-100 rounded" alt="...">
+                                
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>ONGC- Production & Processing</h5>
+                                    <p>Constant efforts by ONGC, one of the leading upstream petroleum companies in India, on the production front have yielded meaningful results</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="{% static 'images/4.jpg' %}" class="d-block w-100 rounded" alt="...">
+                                
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Oil and Gas Industry</h5>
+                                    <p>The oil and gas sector plays a vital role in influencing decision making for all the other important sections of the economy as it is among the eight core industries in India.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-sm-5 stories-news text-light">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="topstories-tab" data-bs-toggle="tab" data-bs-target="#topstories" type="button" role="tab" aria-controls="topstories" aria-selected="true">
+                                Top Stories
+                            </button>
+                        </li>
+    
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news" type="button" role="tab" aria-controls="news" aria-selected="false">
+                                News & Updates
+                            </button>
+                        </li>
+                    </ul>
+    
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="topstories" role="tabpanel" aria-labelledby="topstories-tab">
+                            <div class="card w-100 my-card">
+                                {% for list in mystory %}
+                                <div class="my-new-card mb-3">
+                                    <img src="{{list.image.url}}" width="100%" height="100%" alt="...">
+                                    <h6 class="text-dark">{{list.title | title | truncatechars:60}}</h6>
+                                    <p class="text-dark lh-1">{{list.description | truncatechars:100}}</p>
+                                    <p class="float-end"><small class="text-muted">Last updated {{list.update | ago}}</small></p>
+                                </div>
+                                {% empty %}
+                                <img src="{% static 'images/stories.jpg' %}" alt="" class="d-block w-100 rounded">
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+                            <div class="card w-100 news-card">
+                                {% for list in mynews %}
+                                <div class="my-new-card">
+                                    <p class="text-dark">{{list.title | title}}</p>
+                                    <small class="text-success">{{list.description | truncatechars:80}}</small> <br>
+                                    <small class="text-muted">{{list.update | date:"d F Y"}}</small>
+                                </div>
+                                {% empty %}
+                                <img src="{% static 'images/news.jpg' %}" alt="" class="d-block w-100 rounded">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+   
+    <!-- Board slider -->
+    <section class="board-slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-sm-12">
+                    <div class="board-text-widget">
+                        <h2 class="text-success">Board of Directors</h2>
+                        <p>
+                            The Company is managed by the Board of Directors, which formulates strategies, policies and reviews its performance periodically. The Chairman & Managing Director (CMD) and Six Whole-Time Directors viz. Director (Onshore), Director (Technology & Field Services), Director (Finance), Director (Offshore), Director (Exploration) and Director (Human Resource), manage the day-to-day business affairs of the Company under the overall supervision, control and guidance of the Board.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="board-slider-holder">
+                        <ul id="board_slider_content">
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/SubhashKumar.jpg' %}" width="30px" height="10px" alt="SubhashKumar" class="img-fluid rounded">
+                                        <h6 class="card-title">Subhash Kumar</h6>
+                                        <h5>
+                                            Director (Finance) and Chairman & Managing Director
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/RajeshKakkar.jpg' %}" alt="Rajesh Kakkar" class="img-fluid rounded">
+                                        <h6 class="card-title">Rajesh Kakkar</h6>
+                                        <h5>
+                                            Director (Offshore)
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/AlkaMittal.jpg' %}" alt="Dr. Alka Mittal" class="img-fluid rounded">
+                                        <h6 class="card-title">Dr. Alka Mittal</h6>
+                                        <h5>
+                                            Director (HR)
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/RajeshKumarSrivastava.jpg' %}" alt="Rajesh Kumar Srivastava" class="img-fluid rounded">
+                                        <h6 class="card-title">Rajesh Kumar Srivastava</h6>
+                                        <h5>
+                                            Director (Exploration)
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/director_tfs.jpg' %}" alt="Om Prakash Singh" class="img-fluid rounded">
+                                        <h6 class="card-title">Om Prakash Singh</h6>
+                                        <h5>
+                                            Director (T&FS)
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/AnuragSharma.jpg' %}" alt="Anurag Sharma" class="img-fluid rounded">
+                                        <h6 class="card-title">Anurag Sharma</h6>
+                                        <h5>
+                                            Director (Onshore)
+                                        </h5>
+                                        <p class="card-text">
+                                            CMD and Functional Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/rajesh_aggarwal.jpg' %}" alt="Rajesh Aggarwal" class="img-fluid rounded">
+                                        <h6 class="card-title">Rajesh Aggarwal</h6>
+                                        <h5>
+                                            Additional Secretary & Financial Advisor – MoP&NG
+                                        </h5>
+                                        <p class="card-text">
+                                            Government Nominee Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/amar_nath.jpg' %}" alt="Amar Nath" class="img-fluid rounded">
+                                        <h6 class="card-title">Amar Nath</h6>
+                                        <h5>
+                                            Joint Secretary (Exploration) – MoP&NG
+                                        </h5>
+                                        <p class="card-text">
+                                            Government Nominee Directors
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="card p-0 m-0">
+                                    <div class="card-body">
+                                        <img src="{% static 'images/Board of Director/amitava_bhattacharyya.jpg' %}" alt="Amitava Bhattacharyya" class="img-fluid rounded">
+                                        <h6 class="card-title">Amitava Bhattacharyya</h6>
+                                        <h5>
+                                            Former Central Information Commissioner
+                                        </h5>
+                                        <p class="card-text">
+                                            Independent Director
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- board slider -->
+
+    <!-- contact section-->
+    <div class="container-fluid contact">
+        <div class="text-center">
+            <h3>CONTACT US</h3>
+        </div>
+
+        <div class="col-sm-6 offset-sm-3 landmark">
+            <h5>LandMark</h5>
+
+            <div class="row g-0 mb-0">
+                <div class="col-sm-5">
+                    <p> No. 5A- 5B </p>
+                    <p> Nelson Mandela Road, Vasant Kunj, </p>
+                    <p> New Delhi, 110070 </p>
+                </div>
+
+                <div class="col-sm-5">
+                    <p> &nbsp;<i class="bi bi-telephone-plus"></i>011-26750998 </p>
+                    <p> <i class="las la-fax"></i>011-26750991/ 26129091 </p>
+                    <small> &nbsp;<i class="bi bi-envelope"></i>RANJAN2_RAKESH@ongc.co.in</small>
+                </div>
+
+                <div class="col">
+                    <span class="bi bi-geo-alt-fill"></span>
+                </div>
+            </div>
+            <small class="text-muted">Corporate Identity Number: L74899DL1993GOI054155</small>
+        </div>
+
+        <div class="col-sm-6 offset-sm-3 mt-3 ">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3234.9068623640705!2d77.15487871688144!3d28.54447498637162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1dc8e1c70ee3%3A0x3d8673eb9d295b8e!2sOil%20and%20Natural%20Gas%20Corporation%20Limited%20(ONGC)!5e0!3m2!1sen!2sin!4v1619527567185!5m2!1sen!2sin" width="100%" height="450px" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+    <!-- End Contact section -->
+    {% endblock %}
+
+    {% block script %}
+        <!-- Lightslider js -->
+    <script src="{% static 'js/lightslider.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#board_slider_content").lightSlider({
+                auto: true,
+                loop: true,
+                autowidth: false,
+                useCSS: true,
+                cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
+                easing: 'linear',
+                slideMargin: 6,
+                responsive : [
+                {
+                    breakpoint:800,
+                    settings: {
+                        item:1,
+                        slideMove:1,
+                        slideMargin:6,
+                    }
+                },
+                {
+                    breakpoint:480,
+                    settings: {
+                        item:1,
+                        slideMove:1,
+                    }
+                }
+                ],
+
+                onSliderLoad: function(el) {
+                    $( window ).resize();
+                }, onAfterSlide: function(el) {
+                    $( window ).resize();
+                }
+
+            });
+        })
+    </script>
+
+        {% if modalscript %}
+            {{ modalscript | safe }}
+        {% endif %}
+
+    {% endblock %}

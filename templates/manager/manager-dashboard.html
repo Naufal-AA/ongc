@@ -1,0 +1,164 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+{% load to_newline %}
+
+{% block dashboard %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Dashboard</li>{% endblock %}
+{% block manager %}
+
+    <div class="recent-grid">
+        <div class="projects">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Recent Projects</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <td>Project Title</td>
+                                    <td>Department</td>
+                                    <td>Employee</td>
+                                    <td>Due Date</td>
+                                    <td>Priority</td>
+                                    <td>Status</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in workson %}
+                                <tr class="bs-table-row">
+                                    <td>{{file.projectid.title}}</td>
+                                    <td>{{file.empid.designation.name}}</td>
+                                    <td>{{file.empid.user.get_full_name}}</td>
+                                    <td>{{file.projectid.duedate | date:"d M, Y"}}</td>
+                                    <td>
+                                        {% if file.projectid.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                        {% if file.projectid.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                        {% if file.projectid.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                    </td>
+                                    <td>
+                                        {% if file.status == 'Completed'%}<span class="status purple"></span>
+                                        Review
+                                        {% endif %}
+
+                                        {% if file.status == 'In Progress'%}<span class="status pink"></span>
+                                        Inprogress
+                                        {% endif %}
+
+                                        {% if file.status == 'Pending'%}<span class="status orange"></span>
+                                        Pending
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr class="bs-table-row">
+                                    <td></td> 
+                                    <td colspan="4">
+                                        <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                    </td>
+                                    <td></td>    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row m-0 p-0">
+                        <div class="col-2"></div>
+                        <div class="col-8 m-0 p-0">
+                            {% if not seeall %}
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm justify-content-center">
+                                        {% if workson.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'dashboard' %}?Page={{workson.previous_page_number}}"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in workson.paginator.num_pages|times %}
+                                        {% if i == workson.number %}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="{% url 'dashboard' %}?Page={{workson.number}}">{{i}}</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'dashboard' %}?Page={{i}}">{{i}}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        {% if workson.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'dashboard' %}?Page={{workson.next_page_number}}"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                        </div>
+                        {% if seeall %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'dashboard' %}?Page=1">See less<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% else %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'dashboard' %}?View=seeall">See all<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="customers">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Latest Updates</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    {% for file in notificationlists %}
+                    <a href="" class="customer-a-tag">
+                        <div class="customer">
+                            <div class="info">
+                                {% if file.empid.image %}
+                                <img src="{{file.empid.image.url}}" alt="" width="30px" height="30px">
+                                {% else %}
+                                <img src="{% static 'images/User_Icon.jpg' %}" alt="" width="30px" height="30px">
+                                {% endif %}
+                                <div>
+                                    <h6 class="lh-1">{{file.empid.user.get_full_name}}</h6>
+                                    <small>{{file.empid.designation.name}}</small>
+                                </div>
+                            </div>
+                            <div class="contact1">
+                                <span class="las la-clock"></span>
+                                <span id="clock">{{file.update | ago }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <img src="{% static 'images/notification.jpg' %}" alt="" class="w-100 rounded">
+                    {% endfor %}
+
+                    {% if notificationlists %}
+                    <div class="wrap wrap1">
+                        <span><a href="{% url 'notification' %}">See all<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

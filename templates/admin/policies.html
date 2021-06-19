@@ -1,0 +1,43 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block investoractive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Investors</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'investor' %}">Investors</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Policies</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Policies</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <p>
+                        ONGC believes that highest standards of professionalism, honesty, integrity and ethical behaviour are the four corner-stones for every business establishment for its sustained growth.
+                    </p>
+                    <p>
+                        Accordingly the Company had established a Whistle Blower Policy during 2009 for the Employees and Directors to freely communicate their concerns about illegal or unethical practices with necessary protection mechanism for such whistle blower in line with the requirement under the then prevalent Listing Agreements entered with the Stock Exchanges.Subsequently, the subject ‘Vigil Mechanism’ gained its momentum and secured unassailable place under the new legislations including the Companies Act, 2013 (the Companies Act), the Whistle Blower Protection Act, 2011, SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015 (SEBI Listing Regulations) and DPE Guidelines on Corporate Governance for CPSEs-2010 (DPE Guidelines).
+                    </p>
+                    <p>
+                        Further, SEBI vide recent amendments to Prevention of Insider Trading (PIT) Regulations, 2015 inserted clause 9A(6), which inter-alia provided that the listed company shall have a whistle-blower policy and make employees aware of such policy to enable employees to report instances of leak of unpublished price sensitive information.
+                    </p>
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block mediaactive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Media</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'media' %}">Media</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">ONGC Bulletin</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">ONGC Bulletin</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <p dir="ltr">Oil and Natural Gas Corporation Limited (ONGC), formerly Oil and Natural Gas Commission, established in 1956, is the flagship integrated National oil company involved in multitude business ventures from exploration of Hydrocarbon to its production to refining and distribution of Petroleum products. ONGC is India’s major multinational company with majority stake of Government of India has global presence with 41 projects in 20 countries worldwide through its overseas arm ONGC Videsh Limited.</p>
+
+                    <p dir="ltr">Keshava Deva Malaviya Institute of Petroleum Exploration (KDMIPE), a premier R&amp;D centre, was founded in 1962 with an objective to provide R&amp;D support to the exploratory efforts of ONGC. It addresses varied exploration and exploitation related problem faced by other business centres of ONGC including ONGC Videsh Limited. The solutions from KDMIPE are unique and Basin specific, yet, a number of solutions have wider applicability.</p>
+
+                    <p dir="ltr">ONGC Bulletin, a biannual publication of Oil and Natural Gas Corporation Limited since 1964, has established itself as an effective medium to share R&amp;D efforts in exploration and production with industries, institutions and academicians. ONGC Bulletin presents peer-reviewed authoritative collection of articles on range of Exploration, Laboratory-based geological &amp; geochemical studies. It has unstintingly continued to serve the Indian petroleum geoscience community over the past 53 years since its inception. Attentive efforts are being made to enrich the contents of Bulletin with inputs from industry and academia alike. Besides showcasing latest research articles in the relevant research areas, it occasionally presents theme-based special issues such as ‘Unconventional Hydrocarbon Resources’ ; ‘Exploration in Synrift’, ‘Phanerozoic Stratigraphy of India’, etc.</p>
+
+                    <p dir="ltr">ONGC Bulletin greatly appreciates the continued patronage and support of its valued readership in the form of greater participation towards deeper, farther and wider diffusion of knowledge. Earlier, the ONGC Bulletin was presented in print form only. However, in December 2018, the issue (Volume 53, no.2) was presented in digital format for the first time to disseminate its knowledge to the larger geo-scientific community and other professionals who are engaged in oil &amp; gas business through wider accessibility. Since then, the ONGC Bulletin can be accessed through digital platform.</p>
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends "admin/adminbase.html" %}
+{% load static %}
+
+{% block admindashboard %}class="active"{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+{% block admins %}
+    
+    <div class="cards">
+        <div class="card-single">
+            <div>
+                <h4 class="single-1">{{storycount}}</h4>
+                <span class="card-hover">Stories</span>
+            </div>
+            <div><span class="bi bi-plus-circle-dotted card-hover"></span></div>
+        </div>
+        <div class="card-single">
+            <div>
+                <h4 class="single-2">{{newscount}}</h4>
+                <span class="card-hover">News & Update</span>
+            </div>
+            <div><span class="bi bi-chat-square-dots card-hover"></span></div>
+        </div>
+
+        <div class="card-single">
+            <div>
+                <h4 class="single-3">{{project}}</h4>
+                <span class="card-hover">Projects</span>
+            </div>
+            <div><span class="las la-chalkboard card-hover"></span></div>
+        </div>
+        
+        <div class="card-single">
+            <div>
+                <h4 class="single-4">{{employee}}</h4>
+                <span class="card-hover">Employee</span>
+            </div>
+            <div><span class="las la-users card-hover"></span></div>
+        </div>
+        
+        <div class="card-single">
+            <div>
+                <h4 class="single-5">{{department}}</h4>
+                <span class="card-hover">Department</span>
+            </div>
+            <div><span class="las la-school card-hover"></span></div>
+        </div>
+
+        <div class="card-single">
+            <div>
+                <h4 class="single-6">{{transportationcount | floatformat:"0"}}</h4>
+                <span class="card-hover">Transportation</span>
+            </div>
+            <div><span class="la la-bus card-hover"></span></div>
+        </div>
+
+        <div class="card-single">
+            <div>
+                <h4 class="single-7"><i style="font-family: arial, sans-serif;">&#8377;</i>{{payment}}</h4>
+                <span class="card-hover">Income</span>
+            </div>
+            <div><span class="fab fa-google-wallet card-hover"></span></div>
+        </div>
+    </div>
+
+    <div class="recent-grid">
+        <div class="projects">
+            <div class="card">
+                <div class="card-header">
+                    <h6>New Stories &nbsp;<strong class="las la-plus"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    {% if editstory %}
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="" method="post" enctype="multipart/form-data">
+                    {% else %}
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="{% url 'admindashboard' %}" method="post" enctype="multipart/form-data">
+                    {% endif %}
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        {% if editstory %}
+                        <input type="hidden" name="hiddenid" value="{{editstory.id}}"> 
+                        {% endif %}
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="stitle" class="form-label">Story Title</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Story title" id="stitle" name="stitle" {% if editstory %} value="{{editstory.title}}" {% endif %} autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Title!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control form-control-sm register" placeholder="Description" id="description" name="description"  autocomplete="off" required>{% if editstory %} {{editstory.description}} {% endif %}</textarea>
+                            <div class="invalid-tooltip">
+                                Please provide a brief description!
+                            </div>
+                        </div>
+
+                        <div class="file-wrapper">
+                            <div class="upload-btn-wrapper">
+                                <button class="btn upload-file font-weight-500">
+                                    <span class="upload-btn">
+                                        <i class="las la-cloud-upload-alt d-block font-50 pb-2"></i>
+                                        Browse File here
+                                    </span>
+                                    <span class="upload-select-button p-0" id="blankFile">
+                                        Supports Images only
+                                    </span>
+                                    <span class="success">
+                                        <i class="far fa-check-circle text-success"></i>
+                                    </span>
+
+                                    <span class="error">
+                                        <i class="far fa-times-circle text-danger"></i>
+                                    </span>
+                                </button>
+                                <input type="file" class="form-control form-control-sm" name="storyfile" id="storyfile" accept="image/png, image/jpeg" {% if editstory %} value="{{editstory.image}}" {% else %} required {% endif %}>
+                                <div class="invalid-feedback">
+                                    Please provide a valid File!
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if editstory %}
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-danger btn-sm m-3 px-3 float-end rounded-pill" id="storybutton" value="storyeditbutton" name="storyeditbutton">Update</button>
+                        </div>
+                        {% else %}
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-danger btn-sm m-3 px-3 float-end rounded-pill" id="storybutton" value="storybutton" name="storybutton">Send</button>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="customers">
+            <div class="card">
+                <div class="card-header">
+                    <h6>New Updates & news &nbsp;<strong class="las la-plus"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="" method="post">
+                        {% csrf_token %}
+                        {% if message1 %}
+                        <div class="alert alert-{{ messageclass1 }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader1 }}</strong> {{ message1 }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        {% if editnews %}
+                        <input type="hidden" name="hiddenid1" value="{{editnews.id}}"> 
+                        {% endif %}
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="stitle" class="form-label">News Title</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="News Title" id="ntitle" name="ntitle"  {% if editnews %} value="{{editnews.title}}" {% endif %} autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Title!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control form-control-sm register" placeholder="Description" id="ndescription" name="ndescription" autocomplete="off" required>{% if editnews %}{{editnews.description}}{% endif %}</textarea>
+                            <div class="invalid-tooltip">
+                                Please provide a brief description!
+                            </div>
+                        </div>
+
+                        {% if editnews %}
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-danger btn-sm m-3 px-3 float-end rounded-pill" id="newsupdatebutton" value="newsupdatebutton" name="newsupdatebutton">Update</button>
+                        </div>
+                        {% else %}
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-danger btn-sm m-3 px-3 float-end rounded-pill" id="newsbutton" value="newsbutton" name="newsbutton">Send</button>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block adminscript %}
+    <script>
+        $("#storyfile").bind('change', function(){
+            var filename = $("#storyfile").val();
+
+            const  fileType =this.files[0].type;
+            const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+            if (!validImageTypes.includes(fileType)) {
+                // invalid file type code goes here.
+                $("#blankFile").text("No File chosen..");
+                $(".success").hide();
+                $(".error").show();
+                document.getElementById("storyfile").value = null;
+            }
+            else {
+                $("#blankFile").text(filename.replace("C:\\fakepath\\",""));
+                $(".success").show();
+                $(".error").hide();
+            }
+        })
+    </script>
+{% endblock %}

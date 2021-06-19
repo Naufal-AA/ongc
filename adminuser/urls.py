@@ -1,0 +1,31 @@
+from django.urls import path, re_path
+from . import views
+
+urlpatterns = [
+    path("About/Our-Growth-Story", views.about, name="about"),
+    path("About/Technology", views.technology, name="technology"),
+    path("About/History", views.history, name="history"),
+    path("About/Vision-and-Mission", views.vision, name="vision"),
+    path("About/Contact-Us", views.contact, name="contact"),
+    path("Sustainability/Environment", views.sustainability, name="sustainability"),
+    path("Sustainability/Carbon-Management", views.carbon, name="carbon"),
+    path("Sustainability/Health-And-Safety", views.health, name="health"),
+    path("Investors/Policies", views.investor, name="investor"),
+    path("Investors/Notices", views.notices, name="notices"),
+    path("Media/ONGC-Bulletin", views.media, name="media"),
+    path("Pay/Online-Payment", views.pay, name="pay"),
+    path("@admin", views.admin, name="admin"),
+    path("@admin/Dashboard", views.admindashboard, name="admindashboard"),
+    path("@admin/Stories", views.adminstories, name="adminstories"),
+    path("@admin/News-and-Update", views.adminnews, name="adminnews"),
+    path("@admin/Projects", views.adminproject, name="adminproject"),
+    path("@admin/Employee", views.adminemployee, name="adminemployee"),
+    path("@admin/Departments", views.admindepartment, name="admindepartment"),
+    path("@admin/Transportation", views.admintransport, name="admintransport"),
+    path("@admin/Payment", views.adminpayment, name="adminpayment"),
+    re_path(r'@admin/Projects/Download/(?P<id>\d+)/$', views.admindownload, name="admindownload"),
+    path("@admin/Logout", views.logoutadmin, name="logoutadmin"),
+    path("@admin/<change>", views.changeadmin, name="changeadmin"),
+    re_path(r'@admin/Edit-Stories/(?P<id>\d+)/$', views.editstory, name="editstory"),
+    re_path(r'@admin/Edit-News/(?P<id>\d+)/$', views.editnews, name="editnews"),
+]

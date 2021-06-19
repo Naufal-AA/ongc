@@ -1,0 +1,115 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+
+{% block viewrequest %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">View Request</li>{% endblock %}
+{% block manager %}
+                
+    <div class="mt-3">
+        <div class="projects mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <button class="nav-link active" id="nav-pending-tab" data-bs-toggle="tab" data-bs-target="#nav-pending" type="button" role="tab" aria-controls="nav-pending" aria-selected="true">Pending Requests</button>
+                          <button class="nav-link" id="nav-past-tab" data-bs-toggle="tab" data-bs-target="#nav-past" type="button" role="tab" aria-controls="nav-past" aria-selected="false">Past Requests</button>
+                        </div>
+                    </nav>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Sl No</td>
+                                            <td>Employee ID</td>
+                                            <td>Employee Name</td>
+                                            <td>Employee Email</td>
+                                            <td>Designation</td>
+                                            <td>Project Title</td>
+                                            <td>Reason</td>
+                                            <td>Options</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in requestpending %}
+                                        <tr class="bs-table-row">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{file.empid.designation.code}}</td>
+                                            <td>{{file.empid.user.get_full_name}}</td>
+                                            <td>{{file.empid.user.email}}</td>
+                                            <td>{{file.empid.designation.name}}</td>
+                                            <td>{{file.projectid.title}}</td>
+                                            <td>{{file.reason}}</td>
+                                            <td>
+                                                {% with permit="granted" %}<a href="{% url 'keypermit' file.id permit %}"><i class="las la-stamp fs-5 text-success"></i></a>{% endwith %}
+                                                {% with permit="denied" %}<a href="{% url 'keypermit' file.id permit %}"><i class="las la-ban fs-5 px-2 text-danger"></i></a>{% endwith %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr class="bs-table-row">
+                                            <td></td> 
+                                            <td colspan="7">
+                                                <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                            </td>
+                                            <td></td>    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-past" role="tabpanel" aria-labelledby="nav-past-tab">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Sl No</td>
+                                            <td>Employee ID</td>
+                                            <td>Employee Name</td>
+                                            <td>Employee Email</td>
+                                            <td>Designation</td>
+                                            <td>Project Title</td>
+                                            <td>Reason</td>
+                                            <td>Options</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in requestpast %}
+                                        <tr class="bs-table-row">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{file.empid.designation.code}}</td>
+                                            <td>{{file.empid.user.get_full_name}}</td>
+                                            <td>{{file.empid.user.email}}</td>
+                                            <td>{{file.empid.designation.name}}</td>
+                                            <td>{{file.projectid.title}}</td>
+                                            <td>{{file.reason}}</td>
+                                            <td class="justify-content-center">
+                                                {% if file.permit %}<i class="las la-stamp fs-5 text-success"></i>{% endif %}
+                                                {% if not file.permit %}<i class="las la-ban fs-5 text-danger"></i>{% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr class="bs-table-row">
+                                            <td></td> 
+                                            <td colspan="7">
+                                                <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                            </td>
+                                            <td></td>    
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

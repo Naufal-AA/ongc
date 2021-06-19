@@ -1,0 +1,115 @@
+{% extends "admin/adminbase.html" %}
+{% load static %}
+{% load times %}
+
+{% block admintransport %}class="active"{% endblock %}
+{% block breadcrumb %}Transportation{% endblock %}
+{% block admins %}
+                  
+    <div class="mt-5 projects">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6>Transportation</h6>
+                <span class="las la-ellipsis-h"></span>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="d-flex flex-row-reverse bd-highlight me-4 mb-1">
+                        <form class="d-flex searchbar" action="{% url 'admintransport' %}" method="GET">
+                            <input class="form-control me-1" type="search" name="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <td>Sl No</td>
+                                <td>Transport No</td>
+                                <td>Project Name</td>
+                                <td>Employee</td>
+                                <td>Place</td>
+                                <td>Date</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for list in transport %}
+                            <tr class="bs-table-row">
+                                {% if transport.start_index %}
+                                <td>{{forloop.counter0|add:transport.start_index }}</td>
+                                {% else %}
+                                <td>{{forloop.counter}}</td>
+                                {% endif %}
+                                <td>{{list.transportnumber}}</td>
+                                <td>{{list.project}}</td>
+                                <td>{{list.employee}}</td>
+                                <td>{{list.place}}</td>								
+                                <td>{{list.timestamp | date:"d M, Y"}}</td>								
+                            </tr>
+                            {% empty %}
+                            <tr class="bs-table-row">
+                                <td></td> 
+                                <td colspan="4">
+                                    <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                </td>
+                                <td></td>    
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row m-0 p-0">
+                    <div class="col-2"></div>
+                        <div class="col-8 m-0 p-0">
+                            {% if not seeall %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-sm justify-content-center">
+                                    {% if transport.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'admintransport' %}?Page={{transport.previous_page_number}}"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for i in transport.paginator.num_pages|times %}
+                                    {% if i == transport.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="{% url 'admintransport' %}?Page={{transport.number}}">{{i}}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="{% url 'admintransport' %}?Page={{i}}">{{i}}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if transport.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'admintransport' %}?Page={{transport.next_page_number}}"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                            {% endif %}
+                        </div>
+                    
+                    {% if seeall %}
+                    <div class="col-2 wrap justify-content-end">
+                        <span><a href="{% url 'admintransport' %}?Page=1">See less<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% else %}
+                    <div class="col-2 wrap justify-content-end">
+                        <span><a href="{% url 'admintransport' %}?View=seeall">See all<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

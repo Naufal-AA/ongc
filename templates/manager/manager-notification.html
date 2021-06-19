@@ -1,0 +1,68 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+{% load to_newline %}
+
+{% block notification %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Notification</li>{% endblock %}
+{% block manager %}
+	
+    <div class="mt-3">
+        <div class="projects">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Notification</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    {% for file in notificationlist %}
+                    <div class="card mb-3 w-100">
+                        <div class="row g-0 m-1 p-1">
+                            <div class="col-sm-1 text-center">
+                                {% if file.empid.image %}
+                                <img src="{{file.empid.image.url}}" width="30px" height="30px"  alt="user-profile" class="img-fluid rounded-pill">
+                                {% else %}
+                                <img src="{% static 'images/User_Icon.jpg' %}" width="30px" height="30px"  alt="user-profile" class="img-fluid rounded-pill">
+                                {% endif %}
+                            </div>
+
+                            <div class="col-sm-11">
+                                <div class="card-body m-0 p-0">
+                                    <div class="row">
+                                        <div class="col card-title mb-0 pb-0 ml-0 pl-0">
+                                            <h6 class="mb-0 pb-0"><span class="text-success">{{file.empid.user.get_full_name}}</span></h6>
+                                        </div>
+                                        <div class="col">
+                                            <small class="float-end my-text-secondary f-08">
+                                                <i class="las la-clock"></i>
+                                                {{file.update | date:"d F Y @" }} {{file.update | time:"h:i A" }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="text-secondary f-08">{{file.empid.designation.name}}</small>
+                                    </div>
+                                    <div>
+                                        {% if file.reason %}
+                                        <small class="f-08"><code>{{file.empid.user.get_full_name}}</code> who worked in <code>{{file.empid.designation.name}}</code>, is request permit to access the file <code>{{file.projectid.title}}</code></small>
+                                        {% else %}
+                                        <small class="f-08"><code>{{file.empid.user.get_full_name}}</code> who worked in <code>{{file.empid.designation.name}}</code>, is completed the file <code>{{file.projectid.title}}</code></small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="card mb-3 w-100">
+                        <div class="row g-0 m-1 p-1">
+                            <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

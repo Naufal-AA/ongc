@@ -1,0 +1,48 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block sustainabilityactive %}active{% endblock %}
+
+{% block body %}
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Sustainability</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'sustainability' %}">Sustainability</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Environment Management</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Environment Management</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <img src="{% static 'images/ongc/environment_management.jpg' %}" alt="Environment Management System"  title="ONGC Aspects Safety and Clean Environment" class="mb-3 img-fluid rounded w-100">
+
+                    <p dir="ltr">ONGC has always ensured that it protects and cares for the environment. It demonstrates its proactive environmental management through its integrated Health, Safety &amp; Environment (HSE) Policy formulated in 1983. It continually strives to mitigate the environmental impact, that may arise from its business activities such as exploration, drilling &amp; production, by investing in state-of-art technologies, effluent &amp; solid waste management, environment monitoring and reporting, bio-diversity conservation efforts and up-gradation and sustenance of environment management systems.</p>
+
+                    <p dir="ltr">It has a robust process of internal audit and management review for QHSE management system and regularly reviews its QHSE policy and maps risks. Some notable HSE practices are – Regular QHSE internal audit, Fire safety measures, regular fire and earth quake mock drill, health awareness program, Material Safety Data Sheet (MSDS), Personal Protective Equipment, implementation of Environment Management Systems (EMS), Occupational Health Safety (OHS), Near Miss Reporting, Governance, Risk management and Compliance reporting. As Health, Safety and Environment were integrated in ONGC’s vision and mission, all three aspects are incorporated in new integrated HSE policy.</p>
+
+                    <h5 dir="ltr">Environmental Clearances and regulatory compliance</h5>
+
+                    <p dir="ltr">Environmental Clearance is a statutory requirement for the initiation of the any new project or modification in the existing project. As part of clearance procedure Environmental Impact Assessment studies, Disaster Management Plan and Risk Analysis etc are carried out. Competent third party agencies/consultants are hired for carrying out these studies. ONGC has also developed studies for select projects. The environmental clearance application along with these study reports are submitted to MoEF which inturn grants environmental clearance along with stipulations to be monitored. These stipulations are conscientiously complied and compliance reports are submitted half yearly before 1st June and 1stDecember every year to MoEF.</p>
+
+                    <h5 dir="ltr">Environmental Management System</h5>
+
+                    <p dir="ltr">Environmental protection is regarded as one of the priority business functions. To achieve and sustain the best environmental management practice, environmental management system is in place which is based on ISO 14001.</p>
+
+                    <p dir="ltr">Integrated HSE management system (QHSE) based on ISO 14001, ISO 9001 and OSHAS 18001 has been implemented in all installations and facilities. Internal team of about 300 environmental lead auditors and the core team of QHSE contributed in achieving this goal. EMS is based on precautionary principles and takes care of all the significant environmental attributes of the organization. QHSE’s implementation and maintenance entails achieving levels beyond compliance. Achieving QHSE certification for all installations was the first ever in India by any industry in any sector.</p>
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block aboutactive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">About ONGC</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'about' %}">About ONGC</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Technology</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">E&P Technology</h3>
+            <p class="text-end small">Last updated on: 18 March 2021 02:00:00 pm</p>
+
+
+            <div class="col-sm-12">
+                
+                <p dir="ltr"><img alt="E&amp;P company in India" src="{% static 'images/ongc/eptechno2309.jpg' %}" title="Exploration and Production technology " class="img-fluid rounded w-100" /></p>
+
+                <p dir="ltr">ONGC is one of the <strong>largest E&amp;P Company in India</strong> with in-house service capabilities in all the activity areas of exploration and production of oil &amp; gas and related oil-field services. The state-of-the-art technologies inducted and absorbed over the years such as depth domain processing, stratigraphic inversion, advanced volume based interpretation tools, stochastic lithofacies modeling using neural network, spectral decomposition, geo-statistical modeling, etc.</p>
+
+                <p dir="ltr">“Dedicated to excellence by leveraging competitive advantages in R&amp;D and technology with involved people” – Mission of ONGC</p>
+
+                <h4 dir="ltr">Committee of ONGC Institutes</h4>
+
+                <p dir="ltr">As India’s premier Maharatna, ONGC has pioneered in research and technology development in the country, setting up twelve world-class Institutes under the aegis of ‘Committee of ONGC Institutes’ or ‘<strong>COIN</strong>’. These twelve institutes have become the backbone of India’s hydrocarbon industry and support the entire spectrum of Oil and Gas production, which begins at the well bore and culminates at the consumer point.</p>
+
+                <h4 dir="ltr">EPINET</h4>
+
+                <p dir="ltr">ONGC has set benchmarks for industry to follow. ONGC has setup <strong>EPINET</strong>, through which a live E&amp;P information network and a virtual database has been developed for Basin &amp; Petroleum System Modeling of various basins. Through SCADA all production and drilling executives at different levels utilize and reap benefits of online <strong>SCADA</strong> data for enhanced operational efficiency and productivity.</p>
+
+                <h4 dir="ltr">3-D virtual reality centers</h4>
+
+                <p dir="ltr">ONGC has set up four 3-D virtual reality centers known as '<strong>Third Eye</strong>' for real time dissemination and information of onshore and offshore applications. These centers are used for exploration and production activities including real-time surveillance of producing oil and gas fields thus helping ONGC network all its centers together by parallel computing technologies for all the major projects.</p>
+
+                <h4 dir="ltr">SAP implementation started by ONGC’s management</h4>
+
+                <p dir="ltr">Thinking ahead of times, in 2002, ONGC’s management started the SAP implementation, which turned out to be the largest India has ever seen. ONGC is now moving towards a paperless office through adoption of latest pioneering technologies.</p>
+
+                <p dir="ltr">ONGC embarked upon realignment of its multi-faceted business activities through the powerful medium of Information Technology. The IT mission was realigned ‘To develop an integrated, flexible and standardized Information Technology architecture to position ONGC towards fundamental competitive advantage’. The existing standalone applications (UFSO – for Financial Management, SHRAMIK for Human Resource Management, IMMS for Material Management etc) and other legacy information systems were brought together under a common ERP platform. Thus, Project ICE, Information Consolidation for Efficiency was born, out of the strategic vision of the ONGC’s board, particularly that of Mr. Subir Raha, the then C&amp;MD with the motto of “One Organisation, One Data and One Information”.</p>
+
+                <h4 dir="ltr">Project ICE</h4>
+
+                <p dir="ltr">ONGC has also implemented an enterprise-wide ERP implementation by the name of Project ICE. It comprised of 23 SAP modules in more than 500 physical locations across the length and breadth of the country, starting from mobile Survey units at Jwalamukhi of Himachal Pradesh to Deep Sea vessels at Bay of Bengal, from Production installations at far flung areas of Assam to Drilling rigs in the desert of Rajasthan.</p>
+
+                <p dir="ltr">Over the years, ONGC has developed a formidable capability in ultra-deepwater drilling. Since 2004, ONGC has drilled over 100 deepwater wells. A large number of these wells are in daunting water depths beyond 5000 feet in environmentally and logistically difficult areas of Indian East Coast and West Coast, ranging from Gujarat offshore to Mahanadi offshore including 6 wells in Andaman offshore. Out of these, around 25 wells have been drilled in water depths of 5000 feet to 7500 feet and 16 wells in water depths of 7500 feet to 10000 feet. The current world record well # 1-D-1, which is under drilling, is the 3rd well in beyond 10000 feet water depth.ONGC has achieved this commendable feat due to a sustained effort over the years to keep pace with latest technology in hydrocarbon exploration and it is one of the few companies in the world to have drilled a large number of ultra-deepwater wells in diverse and challenging areas.</p>
+
+                <p dir="ltr">Having gone through the tough grind in deepwater operations during last fifteen years, ONGC is today fully geared up to stand up to any challenge in ultra-deepwater drilling operations in pursuit of energy security for the nation.</p>
+
+                <h4 dir="ltr">Collaboration with Indian Institutes of Technology</h4>
+
+                <p dir="ltr">In early 2015, ONGC signed a Memorandum of Collaboration (MoC) with seven IITs for developing indigenous technologies to enhance exploration and production of hydrocarbons and alternate energy sources. Under the MoC, ONGC's R&amp;D Institutes and the IITs shall jointly undertake advanced research and development projects for the exploration and production (E&amp;P) sector of the country in general and oilfield specific activities of ONGC in particular.</p>
+
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}

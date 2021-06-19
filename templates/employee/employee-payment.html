@@ -1,0 +1,173 @@
+{% extends "employee/employee-base.html" %}
+{% load static %}
+{% load paymentmode %}
+
+{% block payment %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Payment</li>{% endblock %}
+{% block employee %}
+
+<main>
+    <div class="mt-3">
+        <div class="projects mb-3">
+            {% if allpayment %}
+            <div class="card">
+                <div class="card-header">
+                    <h6>All Payments &nbsp;(<i class="las la-rupee-sign"></i>)</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table width="100%">
+                            <caption class="ms-3">Total Amount is : <i class="las la-rupee-sign"></i>{{totalamount | default:"0.0" | paymentmode}}</caption>
+                            <thead>
+                                <tr>
+                                    <td>Sl No</td>
+                                    <td>Project Title</td>
+                                    <td>Project place</td>
+                                    <td>Amount</td>
+                                    <td>Date</td>
+                                    <td>View</td>
+                                    <td>Download</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in allpayment %}
+                                <tr class="bs-table-row">
+                                    {% if allpayment.start_index %}
+                                    <td>{{forloop.counter0|add:allpayment.start_index }}</td>
+                                    {% else %}
+                                    <td>{{forloop.counter}}</td>
+                                    {% endif %}
+                                    <td>{{file.project | title}}</td>
+                                    <td>{{file.projectplace | capfirst}}</td>
+                                    <td>{{file.amount | default:"0.0" | floatformat | paymentmode}}</td>
+                                    <td>{{file.timestamp | date:"d M, Y"}}</td>
+                                    {% with title="Payment" %}
+                                    <td class="pl-30">
+                                        <a href="{% url 'invoice' title file.id %}" target="_blank"><i class="bi bi-eye-fill text-secondary text-center fs-6"></i></a>
+                                    </td>
+                                    <td class="pl-30">
+                                        <a href="{% url 'downloadinvoice' title file.id %}"><i class="bi bi-download text-success text-center fs-6"></i></a>
+                                    </td>
+                                    {% endwith %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row m-0 p-0">
+                        <div class="col-2"></div>
+                            <div class="col-8 m-0 p-0">
+                                {% if not seeall %}
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm justify-content-center">
+                                        {% if allpayment.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'payment' %}?Page={{allpayment.previous_page_number}}"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in allpayment.paginator.num_pages|times %}
+                                        {% if i == allpayment.number %}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="{% url 'payment' %}?Page={{allpayment.number}}">{{i}}</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'payment' %}?Page={{i}}">{{i}}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        {% if allpayment.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'payment' %}?Page={{allpayment.next_page_number}}"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            </div>
+                        
+                        {% if seeall %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'payment' %}?Page=1">See less<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% else %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'payment' %}?View=seeall">See all<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="projects mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h6>New Payment &nbsp;<strong class="las la-plus"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="{% url 'payment' %}" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="pname" class="form-label">Project Name</label>
+                            <input class="form-control form-control-sm register" list="projectname" placeholder="Project Name" id="pname" name="pname" autocomplete="off" required>
+
+                            <datalist id="projectname" class="dropdown-menu-dark">
+                                {% for option in paymentlist %}
+                                <option id="options" class="dropdown-menu-dark">{{option.title}}</option>
+                                {% empty %}
+                                <option id="options" class="dropdown-menu-dark">Nothing...</option>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="placd" class="form-label">Place</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Project Place" id="place" name="place" pattern="^[A-Za-z ,]+$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Place!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="payment" class="form-label">Payment</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Payment" id="payment" name="payment" pattern="^\d+(\.\d{0,2})?$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Amount!
+                            </div>
+                        </div>
+
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success btn-sm m-3 float-end rounded-pill px-3" id="paymentbutton" value="paymentvalue">Pay</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+{% endblock %}

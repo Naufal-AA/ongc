@@ -1,0 +1,43 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block investoractive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Investors</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'investor' %}">Investors</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Notices</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Notices</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <p>
+                        Pursuant to Regulation 47 read with Regulation 29 of the SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015, notice is hereby given that a meeting of the Board of Directors of the Company is scheduled to be held on Friday, the 13th November, 2020, inter-alia, to consider and approve Unaudited Financial Results of the Company for the Quarter and Half year ended 30th September, 2020
+                    </p>
+                    <p>
+                        Pursuant to the provisions of SEBI (Prohibition of Insider Trading) Regulations, 2015 read with amendment thereto ("Regulations") and the Company's Policy under the said Regulations, Trading Window, shall remain closed till Sunday, 15th November, 2020, for the Insider, as informed as per Annual Plan for closure of Trading Window intimation to stock exchanges vide communication dated 23.03.2020.
+                    </p>
+                    <p>
+                        This notice is also available on the website of Company at www.ongcindia.com and on the website of the Stock Exchanges www.nse-india.com and www.bseindia.com. New Delhi 05.11.2020 For Oil and Natural Gas Corporation
+                    </p>
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

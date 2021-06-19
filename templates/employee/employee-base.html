@@ -1,0 +1,285 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block useractive1 %}active{% endblock %}
+{% block home%}{% endblock %}
+
+{% block style %}
+    <link href="{% static 'css/employee.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <!-- Main Area -->
+	<main class="admin-main">
+		<div class="admin">
+            <input type="checkbox" id="nav-toggle">
+            <div class="sidebar">
+                <div class="sidebar-brand">
+                    <h5>
+                        {% if request.user.emp_user.image %}
+                        <img src="{{request.user.emp_user.image.url}}" alt="" class="img-fluid mx-auto d-block">
+                        {% else%}
+                        <img src="{% static 'images/User_Icon.jpg' %}" alt="" class="img-fluid mx-auto d-block">
+                        {% endif %}
+                        
+                        <div class="user-wrapper">
+                            <div>
+                                <p class="lead fs-6 text-capitalize"> {{request.user.get_full_name}}</p>
+                                <small>{{request.user.emp_user.designation.name}}</small>
+                            </div>
+                        </div>
+                    </h5>
+                </div>
+
+                <div class="sidebar-menu">
+                    <ul>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                            <a href="{% url 'employeedashboard' %}" {% block employeedashboard %}{% endblock %}>
+                                <span class="fas fa-chart-pie fs-5"></span>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Transportation">
+                            <a href="{% url 'transportation' %}" {% block transportation %}{% endblock %}>
+                                <span class="la la-bus"></span>
+                                <span>Transportation</span>
+                            </a>
+                        </li>
+                        <li  data-bs-toggle="tooltip" data-bs-placement="right" title="Payment">
+                            <a href="{% url 'payment' %}" {% block payment %}{% endblock %}>
+                                <span class="lab la-cc-diners-club"></span>
+                                <span>Payment</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <header>
+                    <h5>
+                        <label for="nav-toggle">
+                            <span class="las la-bars"></span>
+                        </label>
+                    </h5>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                          <li class="breadcrumb-item"><a href="{% url 'employeedashboard' %}">Employee</a></li>
+                          {% block breadcrumb %}{% endblock %}
+                        </ol>
+                    </nav>
+                </header>
+
+                <!-- Employee content -->
+                {% block employee %}
+                    <!-- Main Content Area -->
+                {% endblock %}
+                <!-- End Manager -->
+            </div>
+        </div>
+
+        <!-- Employee content -->
+        {% block employee-decryption %}
+            <!-- Main Content Area -->
+        {% endblock %}
+        <!-- End Manager -->
+
+
+        <!-- View Profile modal dialog -->
+        <div class="modal fade" id="admin-profile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="admin-profileLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header m-0 pb-0">
+                        <h5 class="modal-title" id="admin-profileLabel"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+
+                    <div class="modal-body profile-body m-0 p-0">
+                        <div class="col-sm-10 offset-sm-1">
+                            <div class="profile p-0">
+                                <div class="newprofilepic top-100 start-50 translate-middle-x">
+                                    <form action="{% url 'employeedashboard' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% if request.user.emp_user.image %}
+                                        <img src="{{request.user.emp_user.image.url}}" id="newphoto" alt="Profile" class="img-fluid mx-auto d-block mt-0">
+                                        {% else%}
+                                        <img src="{% static 'images/User_Icon.jpg' %}" id="newphoto" alt="Profile" class="img-fluid mx-auto d-block mt-0">
+                                        {% endif %}
+                                        <input type="file" id="myuploadfile" name="myuploadfile" onchange="form.submit()" accept="image/png, image/jpeg">
+                                        <label for="myuploadfile" id="myuploadBtn">Change Profile</label>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h4 class="align-self-start mb-0 text-light">{{request.user.username}}</h4>
+                                    <p class="text-success">{{request.user.emp_user.designation.name}}</p>
+                                </li>
+                                <li class="list-group-item"><small>{{request.user.get_full_name}}</small><hr></li>
+                                <li class="list-group-item"><small>{{request.user.email}}</small><hr></li>
+                                <li class="list-group-item"><small>{{request.user.phone}}</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- View Profile modal dialog -->
+
+        <!-- Change Username modal dialog -->
+        <div class="modal fade" id="change-user-name" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="change-user-nameLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header mt-0 mb-0 pb-0">
+                        <h5 class="modal-title" id="change-user-nameLabel"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+
+                    <div class="modal-body m-0 p-0">
+                        <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    </div>
+
+                    <div class="col-sm-10 offset-sm-1 mt-5 p-3">
+
+                        {% with urlid="Change-Username" %}
+                        <form class="needs-validation" novalidate action="{% url 'change' urlid %}" method="POST">
+                            <h5>Change User Name</h5>
+                            {% csrf_token %}
+                            {% if message %}
+                            <div class="alert alert-{{messageclass}} alert-dismissible fade show" role="alert">
+                                <strong>{{messageheader}}</strong> {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+
+                            <h6 class="text-success mb-3">Current Username:&nbsp;&nbsp;<strong class="badge rounded-pill bg-light text-success">{{request.user.username}}</strong></h6>
+                            <input type="hidden" name="currentusername" value="{{request.user.username}}">
+                            <div class="mb-3 position-relative">
+                                <label for="name" class="form-label">New User Name</label>
+                                <input type="text" class="form-control form-control-sm register" placeholder="Username" id="name" name="changeusername" pattern="^[0-9A-Za-z-_@.+]*$" autocomplete="off" required aria-describedby="nameHelp">
+                                <div id="nameHelp" class="form-text">use this form to change a member's username. All existing content will continue to be associated with this same user.</div>
+
+                                <div class="invalid-tooltip">
+                                    Username contain only letters, numbers, and @.+-_ characters
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 pt-3">
+                                <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="changeusername" name="Change-Username">Change Username</button>
+                            </div>
+                        </form>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Change Username modal dialog -->
+
+        <!-- Change Password modal dialog -->
+        <div class="modal fade" id="change-password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="change-passwordLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header mt-0 mb-0 pb-0">
+                        <h5 class="modal-title" id="change-passwordLabel"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+
+                    <div class="modal-body m-0 p-0">
+                        <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    </div>
+
+                    <div class="col-sm-10 offset-sm-1 mt-5 p-3">
+
+                        {% with urlid1="Change-Password" %}
+                        <form class="needs-validation" novalidate action="{% url 'change' urlid1 %}" method="POST">
+                            <h5>Change Password</h5>
+                            {% csrf_token %}
+                            {% if message1 %}
+                            <div class="alert alert-{{messageclass1}} alert-dismissible fade show" role="alert">
+                                <strong>{{messageheader1}}</strong> {{message1}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3 position-relative">
+                                <label for="cpassword" class="form-label">Current Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="Current Password" id="cpassword" name="cpassword" required>
+
+                                <div class="invalid-tooltip">
+                                    Please provide your current password!
+                                </div>
+                            </div>
+
+                            <div class="mb-3 position-relative">
+                                <label for="npassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="New Password" id="npassword" name="npassword" minlength="4" maxlength="20" required>
+
+                                <div class="invalid-tooltip">
+                                    Your password must be 4-20 characters long
+                                </div>
+                            </div>
+
+                            <div class="mb-3 position-relative">
+                                <label for="cnpassword" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="Confirm New Password" id="cnpassword" name="cnpassword" required>
+
+                                <div class="invalid-tooltip">
+                                    Please confirm Password!
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 pt-3">
+                                <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="changepassword" name="changepassword">Change Password</button>
+                            </div>
+                        </form>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+	</main>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block script %}
+    <script>
+        // tooltip
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    {% if modalemployee %}
+        {{modalemployee | safe}}
+    {% endif %}
+
+    {% block managerscript %}
+    {% endblock %}
+
+    {% block employee-base-script %}
+    {% endblock %}
+    <script>
+        var password2 = document.getElementById("npassword")
+        , confirm_password2 = document.getElementById("cnpassword");
+
+        function validatePassword2(){
+        if(password2.value != confirm_password2.value) {
+            confirm_password2.setCustomValidity("Passwords Does not Match");
+        } else {
+            confirm_password2.setCustomValidity('');
+        }
+        }
+
+        password2.onchange = validatePassword2;
+        confirm_password2.onkeyup = validatePassword2;
+    </script>
+
+{% endblock %}

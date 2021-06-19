@@ -1,0 +1,283 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+{% load to_newline %}
+
+{% block addproject %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Add Projects</li>{% endblock %}
+{% block manager %}
+
+    <div class="recent-grid">
+        <div class="projects">
+            <div class="card">
+                {% if addproject %}
+                <div class="card-header">
+                    <h6>Edit Project &nbsp;<strong class="las la-pen"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+    
+                <div class="card-body">
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <input type="hidden" name="titlehidden" value='{{addproject.title}}'>
+                        <input type="hidden" name="idhidden" value="{{addproject.id}}">
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="title" class="form-label">Project Title</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Project Title" id="title" name="title" value="{{addproject.title}}" pattern="^[0-9a-zA-Z -_]+$" autocomplete="off">
+                            <div class="invalid-tooltip">
+                                Please provide a valid Title! contain numbers, letters, whitespace, and '-_' only
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 position-relative">
+                            <label for="duedate" class="form-label">Due Date </label>
+                            <input type="date" class="form-control form-control-sm register" id="duedate" name="duedate" value="{{addproject.duedate| date:'Y-m-d'}}" max="2025-01-01" autocomplete="off">
+                            <div class="invalid-tooltip">
+                                Please provide a valid Date!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="forward" class="form-label">Forward to </label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Type Here to Search" id="forward" name="forward" value="{{addproject.forwardto}}">
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="priority" class="form-label">Project Priority</label>
+                            <div class="my-custom-select">
+                                <select class="minimal" id="priority" name="priority"">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="file-wrapper">
+                            <div class="upload-btn-wrapper">
+                                <button class="btn upload-file font-weight-500">
+                                    <span class="upload-btn">
+                                        <i class="las la-cloud-upload-alt d-block font-50 pb-2"></i>
+                                        Browse File here
+                                    </span>
+                                    <span class="upload-select-button p-0" id="blankFile">
+                                        Supports doc and docx
+                                    </span>
+                                    <span class="success">
+                                        <i class="far fa-check-circle text-success"></i>
+                                    </span>
+
+                                    <span class="error">
+                                        <i class="far fa-times-circle text-danger"></i>
+                                    </span>
+                                </button>
+                                <input type="file" class="form-control form-control-sm" name="selectfile" value="{{addproject.projectfile}}" id="selectfile" accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                <div class="invalid-feedback">
+                                    Please provide a valid File!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success btn-sm m-3 float-end rounded-pill" value="editproject" name="myeditproject">Update Project</button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="card-header">
+                    <h6>New Project &nbsp;<strong class="las la-plus"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="{% url 'addproject' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="title" class="form-label">Project Title</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Project Title" id="title" name="title" pattern="^[0-9a-zA-Z -_]+$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Title! contain numbers, letters, whitespace, and '-_' only
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 position-relative">
+                            <label for="duedate" class="form-label">Due Date </label>
+                            <input type="date" class="form-control form-control-sm register" id="duedate" name="duedate" max="2025-01-01" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Date!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="forward" class="form-label">Forward to </label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Type Here to Search" id="forward" name="forward" required>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="priority" class="form-label">Project Priority</label>
+                            <div class="my-custom-select">
+                                <select class="minimal" id="priority" name="priority">
+                                    <option value="low" selected>Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="file-wrapper">
+                            <div class="upload-btn-wrapper">
+                                <button class="btn upload-file font-weight-500">
+                                    <span class="upload-btn">
+                                        <i class="las la-cloud-upload-alt d-block font-50 pb-2"></i>
+                                        Browse File here
+                                    </span>
+                                    <span class="upload-select-button p-0" id="blankFile">
+                                        Supports doc and docx
+                                    </span>
+                                    <span class="success">
+                                        <i class="far fa-check-circle text-success"></i>
+                                    </span>
+
+                                    <span class="error">
+                                        <i class="far fa-times-circle text-danger"></i>
+                                    </span>
+                                </button>
+                                <input type="file" class="form-control form-control-sm" name="selectfile" id="selectfile" accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid File!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success btn-sm m-3 float-end rounded-pill" value="createproject">Create Project</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="customers">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Latest Updates</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    {% for file in notificationlists %}
+                    <a href="" class="customer-a-tag">
+                        <div class="customer">
+                            <div class="info">
+                                {% if file.empid.image %}
+                                <img src="{{file.empid.image.url}}" alt="" width="30px" height="30px">
+                                {% else %}
+                                <img src="{% static 'images/User_Icon.jpg' %}" alt="" width="30px" height="30px">
+                                {% endif %}
+                                <div>
+                                    <h6 class="lh-1">{{file.empid.user.first_name}} {{file.empid.user.last_name}}</h6>
+                                    <small>{{file.empid.designation.name}}</small>
+                                </div>
+                            </div>
+                            <div class="contact1">
+                                <span class="las la-clock"></span>
+                                <span id="clock">{{file.update | ago }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <img src="{% static 'images/notification.jpg' %}" alt="" class="w-100 rounded">
+                    {% endfor %}
+
+                    {% if notificationlists %}
+                    <div class="wrap wrap1">
+                        <span><a href="{% url 'notification' %}">See all<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block managerscript %}
+    <script>
+        // date from today
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+        dd='0'+dd
+        }
+        if(mm<10){
+        mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("duedate").setAttribute("min", today);
+        // Multiple Selection Script
+        $('input[name="forward"]').amsifySuggestags({
+            //suggestions: ["Senior Engineer", "Junior Engineer", "Contractors", "Agencies", "Subcontractors", "Tunnel Operator", "Apprentices", "General Manager", "Chief General Manager", "Production General Manager", "Construction General Manager", "Deputy General Manager", "Financial Deputy General Manager", "General manager-Human Resources", "Deputy General Manager (DGM) Production"],
+            suggestions : ['{{desoptionlist|safe}}'],
+            whiteList: true,
+            beforeAdd:function(value) {
+                $( window ).resize();
+            },
+            afterAdd:function(value) {
+                $( window ).resize();
+            },
+            afterRemove:function(value) {
+                $( window ).resize();
+            },
+
+        });
+
+
+        $("#selectfile").bind('change', function(){
+            var filename = $("#selectfile").val();
+
+            const  fileType =this.files[0].type;
+            const validImageTypes = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+            if (!validImageTypes.includes(fileType)) {
+                // invalid file type code goes here.
+                $("#blankFile").text("No File chosen..");
+                $(".success").hide();
+                $(".error").show();
+                document.getElementById("selectfile").value = null;
+            }
+            else {
+                $("#blankFile").text(filename.replace("C:\\fakepath\\",""));
+                $(".success").show();
+                $(".error").hide();
+            }
+        })
+    </script>
+    {% block editproject %}
+    {% if addproject %}
+    <script type="text/javascript">
+        $(document).ready(()=>{
+            $("#priority").val('{{addproject.priority}}');
+        });
+    </script>
+    {% endif %}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "employee/employee-base.html" %}
+{% load static %}
+{% load paymentmode %}
+
+{% block transportation %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Transportation</li>{% endblock %}
+{% block employee %}
+
+<main>
+    <div class="mt-3">
+        <div class="projects mb-3">
+            {% if alltransportation %}
+            <div class="card">
+                <div class="card-header">
+                    <h6>All Tranportaion &nbsp;(<i class="las la-money-bill-wave-alt"></i>)</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <td>Sl No</td>
+                                    <td>Transportation Number</td>
+                                    <td>Project Title</td>
+                                    <td>Project place</td>
+                                    <td>Date</td>
+                                    <td>View</td>
+                                    <td>Download</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in alltransportation %}
+                                <tr class="bs-table-row">
+                                    {% if alltransportation.start_index %}
+                                    <td>{{forloop.counter0|add:alltransportation.start_index }}</td>
+                                    {% else %}
+                                    <td>{{forloop.counter}}</td>
+                                    {% endif %}
+                                    <td>{{file.transportnumber | floatformat:"0"}}</td>
+                                    <td>{{file.project | title}}</td>
+                                    <td>{{file.place | capfirst}}</td>
+                                    <td>{{file.timestamp | date:"d M, Y"}}</td>
+                                    {% with title="Transportation" %}
+                                    <td class="pl-30">
+                                        <a href="{% url 'invoice' title file.id %}" target="_blank"><i class="bi bi-eye-fill text-secondary text-center fs-6"></i></a>
+                                    </td>
+                                    <td class="pl-30">
+                                        <a href="{% url 'downloadinvoice' title file.id %}"><i class="bi bi-download text-success text-center fs-6"></i></a>
+                                    </td>
+                                    {% endwith %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row m-0 p-0">
+                        <div class="col-2"></div>
+                            <div class="col-8 m-0 p-0">
+                                {% if not seeall %}
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm justify-content-center">
+                                        {% if alltransportation.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'transportation' %}?Page={{alltransportation.previous_page_number}}"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% for i in alltransportation.paginator.num_pages|times %}
+                                        {% if i == alltransportation.number %}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="{% url 'transportation' %}?Page={{alltransportation.number}}">{{i}}</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="{% url 'transportation' %}?Page={{i}}">{{i}}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        {% if alltransportation.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'transportation' %}?Page={{alltransportation.next_page_number}}"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                                {% endif %}
+                            </div>
+                        
+                        {% if seeall %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'transportation' %}?Page=1">See less<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% else %}
+                        <div class="col-2 wrap justify-content-end">
+                            <span><a href="{% url 'transportation' %}?View=seeall">See all<i class="las la-arrow-right"></i></a></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="projects mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h6>New Transportation &nbsp;<strong class="las la-plus"></strong></h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <form class="needs-validation" name="projectform" id="projectform" novalidate action="{% url 'transportation' %}" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="alert alert-{{ messageclass }} alert-dismissible fade show" role="alert">
+                            <strong>{{ messageheader }}</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="tnumber" class="form-label">Transportation Number</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Transportation Number" id="tnumber" name="tnumber" pattern="^\d{8}$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Number!
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="pname" class="form-label">Project Name</label>
+                            <input class="form-control form-control-sm register" list="projectname" placeholder="Project Name" id="pname" name="pname" autocomplete="off" required>
+
+                            <datalist id="projectname" class="dropdown-menu-dark">
+                                {% for option in transportlist %}
+                                <option id="options" class="dropdown-menu-dark">{{option.title}}</option>
+                                {% empty %}
+                                <option id="options" class="dropdown-menu-dark">Nothing...</option>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <div class="mb-3 mt-3 pt-3 position-relative">
+                            <label for="place" class="form-label">Send Place</label>
+                            <input type="text" class="form-control form-control-sm register" placeholder="Send Place" id="place" name="place" pattern="^[A-Za-z ,]+$" autocomplete="off" required>
+                            <div class="invalid-tooltip">
+                                Please provide a valid Place!
+                            </div>
+                        </div>
+
+                        <div class="gap-2 pt-3">
+                            <button type="submit" class="btn btn-outline-success btn-sm m-3 float-end rounded-pill" id="send" value="send">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+    
+{% endblock %}

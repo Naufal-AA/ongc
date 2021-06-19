@@ -1,0 +1,62 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block sustainabilityactive %}active{% endblock %}
+
+{% block body %}
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Sustainability</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'sustainability' %}">Sustainability</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Carbon Management</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Carbon Management</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <p dir="ltr"><img src="{% static 'images/ongc/carbon_management_banner.jpg' %}" alt="Carbon Management"  title="Carbon management in upstream oil &amp; gas sector" class="img-fluid rounded w-100"></p>
+
+                    <p dir="ltr">ONGC being one of the premier energy majors of the world&nbsp; realises its responsibilities in ensuring sustained development through protection of the ecological system. It therefore strives to position itself as a leading organisation in sustainable management and is aiming to achieve sustainable development through a holistic approach to carbon management. ONGC believes that focused <strong class="strong">Carbon Management</strong> efforts are an ideal route to cover the elements of our business specific sustainable development issues across the environmental dimensions. A critical area of environmental sustainability is mitigation of global greenhouse gas from operations. It is an organizational objective for us to progressively reduce our carbon footprint by working towards reduction in both direct and indirect energy consumption.</p>
+
+                    <p dir="ltr">ONGC is aware of the risks arising due to climate change. It has a dedicated Carbon Management &amp; Sustainability Group (CM&amp;SG) with a specific mandate to position ONGC as the leading organisation in sustainable development (SD) and to voluntarily take up carbon management strategy to synergise all business activities with sustainable development, particularly to address issues related to climate change risks and opportunities arising from <strong class="strong">carbon mitigation initiatives</strong>. The management has been active in engaging with national and international climate change forum to ensure that the organisation stays current with global climate change negotiations and India’s domestic commitments.</p>
+
+                    <h5 dir="ltr">Global Methane Initiative</h5>
+
+                    <p dir="ltr"><strong class="strong">Global Methane Initiative (GMI)</strong> was launched by United States Environmental Protection Agency (USEPA) is a voluntary, multilateral partnership and other interested stakeholders in a collaborative effort to reduce methane gas emissions and advance methane recovery and use as a clean energy source. The efforts not only reduce global methane emissions but also stimulate economic growth, strengthen energy security, improving local air &amp; water quality in addition to the safety of the manpower employed.</p>
+
+                    <p dir="ltr">ONGC signed a voluntary agreement with USEPA in 2007 for the purpose of reducing fugitive methane emission in atmosphere by implementing cost effective emission reduction technologies and practices. Regular gas leak surveys are conducted at various production installations using Gas Find Infrared Camera.</p>
+
+                    <p dir="ltr">The main objective of the gas leak survey was to identify the fugitive gas leaks to enable the remedial action in order to improve the operational efficiency, enhancing workplace safety, protecting the environment and increasing marketable natural gas.</p>
+
+                    <p dir="ltr">In FY20, CM&amp;SG group had completed the GMI Survey of the following locations:</p>
+
+                    <ol dir="ltr">
+                        <li><strong class="strong">Uran Plant&nbsp; (11.11.2019 to13.11.2019)</strong></li>
+                        <li><strong class="strong">Hazira Plant (22.04.2019 to 25.04.2019)</strong></li>
+                        <li><strong class="strong">Assam Asset</strong><strong class="strong"> (30.10.2019 to 02.11.2019)</strong></li>
+                    </ol>
+
+                    <p dir="ltr">In FY21, CM&amp;SG group had completed the GMI Survey of the following locations:</p>
+
+                    <ol dir="ltr">
+                        <li><strong class="strong">Ahmedabad Asset (11.03.2021 to 13.03.2021)</strong></li>
+                        <li><strong class="strong">Cambay Asset ( 15.03.2021 to 16.03.2021)</strong></li>
+                    </ol>
+
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

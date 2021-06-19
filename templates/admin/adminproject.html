@@ -1,0 +1,119 @@
+{% extends "admin/adminbase.html" %}
+{% load static %}
+{% load times %}
+
+{% block adminproject %}class="active"{% endblock %}
+{% block breadcrumb %}Projects{% endblock %}
+{% block admins %}
+                  
+    <div class="mt-5 projects">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6>Projects</h6>
+                <span class="las la-ellipsis-h"></span>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="d-flex flex-row-reverse bd-highlight me-4 mb-1">
+                        <form class="d-flex searchbar" action="{% url 'adminproject' %}" method="GET">
+                            <input class="form-control me-1" type="search" name="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <td>Sl No</td>
+                                <td>Project Title</td>
+                                <td>Due Date</td>
+                                <td>Priority</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for list in projects %}
+                            <tr class="bs-table-row">
+                                {% if projects.start_index %}
+                                <td>{{forloop.counter0|add:projects.start_index }}</td>
+                                {% else %}
+                                <td>{{forloop.counter}}</td>
+                                {% endif %}
+                                <td>{{list.title | title | truncatechars:30}}</td>
+                                <td>{{list.duedate | date:"d M, Y" }}</td>
+                                <td>
+                                    {% if list.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                    {% if list.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                    {% if list.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                </td>	
+                                <td class="pl-30">
+                                    <a href="{% url 'admindownload' list.id %}"><i class="bi bi-download text-danger text-center fs-6"></i></a>
+                                </td>						
+                            </tr>
+                            {% empty %}
+                            <tr class="bs-table-row">
+                                <td></td> 
+                                <td colspan="4">
+                                    <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                </td>
+                                <td></td>    
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row m-0 p-0">
+                    <div class="col-2"></div>
+                        <div class="col-8 m-0 p-0">
+                            {% if not seeall %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-sm justify-content-center">
+                                    {% if projects.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'adminproject' %}?Page={{projects.previous_page_number}}"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for i in projects.paginator.num_pages|times %}
+                                    {% if i == projects.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="{% url 'adminproject' %}?Page={{projects.number}}">{{i}}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="{% url 'adminproject' %}?Page={{i}}">{{i}}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if projects.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'adminproject' %}?Page={{projects.next_page_number}}"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" tabindex="-1" aria-disabled="true"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                            {% endif %}
+                        </div>
+                    
+                    {% if seeall %}
+                    <div class="col-2 wrap justify-content-end">
+                        <span><a href="{% url 'adminproject' %}?Page=1">See less<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% else %}
+                    <div class="col-2 wrap justify-content-end">
+                        <span><a href="{% url 'adminproject' %}?View=seeall">See all<i class="las la-arrow-right"></i></a></span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

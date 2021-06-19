@@ -1,0 +1,87 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Load CSS -->
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+
+    <!------ Bootstrap icon ------>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!--- Line Awesome Icon --->
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <!-- Fontaweesome icon -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <!-- Favicons -->
+	  <link rel="shortcut icon" sizes="16x16" href="{% static 'favicon/favicon.png' %}" type="image/png">
+	  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'favicon/favicon-144.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'favicon/favicon-114.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'favicon/favicon-72.png' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'favicon/favicon-57.png' %}">
+
+    <title>{% block title %}ONGC - Oil and Natural Gas Corporation Limited{% endblock %}</title>
+  </head>
+  <body>
+
+    {% if admin %}
+    <center>
+      <div class="usericon">
+        <img src="{% static 'images/User_Icon.jpg' %}" height="100%" alt="">
+      </div>
+      <h1>Administrator</h1>
+      <div class="login">
+        <form action="{% url 'admin' %}" method="POST">
+          {% csrf_token %}
+          <input type="text" name="admin" id="admin" placeholder="Username" autocomplete="off" autofocus>
+        </form>
+      </div>
+    </center>
+    {% endif %}
+    
+    {% if entry %}
+    <center>
+      <div class="usericon">
+        {% if image %}
+        <img src="{{image}}" height="100%" alt="">
+        {% else %}
+        <img src="{% static 'images/User_Icon.jpg' %}" height="100%" alt="">
+        {% endif %}
+      </div>
+      <h1>{{entry}}</h1>
+      <div class="login">
+        <form action="{% url 'admin' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="username" id="username" value="{{entry}}">
+          <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" autofocus>
+          <button type="submit"><span class="bi bi-arrow-right"></span></button>
+        </form>
+      </div>
+      {% if message %}
+      <div class="error fade show" role="alert">
+        <strong>Invalid Credential</strong> Password is incorrect, try again!
+        <button type="button" class="btn-close">&#x2715;</button>
+      </div>
+      {% endif %}
+    </center>
+    {% endif %}
+
+
+    <!-- JQuery, Main Js, and backtodrop js -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    
+    <script>
+      $(document).ready(function() {
+        $('.btn-close').on('click', function(e) { 
+            $('.error').remove(); 
+        });
+      });
+    </script>
+  </body>
+</html>

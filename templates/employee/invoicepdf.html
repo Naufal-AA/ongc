@@ -1,0 +1,151 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ONGC - Oil and Natural Gas Corporation Limited</title>
+    <style>
+         @page {
+            size: letter portrait;
+            background-image: url('../static/images/invoice.jpg');
+            @frame content_frame {
+                left: 30pt;
+                width: 552pt;
+                top: 30pt;
+                height: 732pt;
+                -pdf-frame-border: 1; /* for debugging the layout */
+            }  
+            @frame col1_frame { /* Content frame 1 */
+                left: 10pt; width: 200pt; top: 90pt; height: 632pt;
+            }
+            @frame col2_frame { /* Content frame 2 */
+                left: 323pt; width: 200pt; top: 90pt; height: 632pt;
+            } 
+        }
+        
+    </style>
+    
+    <style>
+        table { -pdf-keep-with-next: true; }
+        p { margin: 0; -pdf-keep-with-next: true; }
+        p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+    </style>
+
+    <style>
+        body {
+            position: relative; 
+            margin: 0 auto; 
+            color: #555555;
+            background: #FFFFFF; 
+            font-family: Arial, Helvetica, sans-serif; 
+            font-size: 14px; 
+        }
+        a {
+            color: #882d2d;
+            text-decoration: none;
+        }
+        header {
+            padding: 10px 0;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #9a4a4a;
+        }
+
+        header h1 {
+            color: #9a4a4a;
+            padding-bottom: 0;
+            margin-bottom: 5px;
+            font-size: 2rem;
+        }
+        #company {
+            text-align: right;
+            font-size: 0.8rem;
+        }
+
+        .mytable thead td {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #6e0304;
+        }
+
+        .mytable tbody td {
+            font-size: 1rem;
+            color: #615f5f;
+        }
+
+        .serial {
+            color: #6e0304;
+        }
+    </style>
+    
+  </head>
+  <body>
+        <header class="clearfix">
+            <div id="company" style="padding-right:20px;margin:0; padding-top:0; padding-bottom:0;">
+                <h1 class="name" style="padding-top:20px;">Oil and Natural Gas Corporation Limited </h1>
+                <div>No. 5A- 5B</div>
+                <div>Nelson Mandela Road, Vasant Kunj,</div>
+                <div>New Delhi, 110070</div>
+                <div>011-26750998</div>
+                <div><a href="mailto:RANJAN2_RAKESH@ongc.co.in">RANJAN2_RAKESH@ongc.co.in</a></div>
+            </div>
+        </header>
+        <table style="margin-left:30px; font-size: 0.85rem;">
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td>
+                    <div style="color: #777777;">INVOICE TO:</div>
+                    <h2 style="color : #348c3f;font-size: 1.4em;font-weight: normal;margin: 0;">{{invoice.employee}}</h2>
+                    <div style="color: #1b44a0;">{{designation}}</div>
+                    <div><a href="mailto:{{customer_email}}">{{email}}</a></div>
+                </td>
+                <td></td>
+                <td>
+                    <h1 style="margin-bottom: 5px;text-align: right;padding-right:10px;color: #c30000;font-size: 2.4em;line-height: 1em;font-weight: normal;margin: 0  0 10px 0;">#{{invoice.id}}</h1>
+                    <div class="date" style="text-align: right; padding-right: 10px;font-size: 1.1em;color: #777777;">Date of Invoice: {{invoice.timestamp | date:"d M, Y"}}</div>
+                    <div class="date" style="text-align: right; padding-right: 10px;font-size: 1.1em;color: #777777;">Time of Invoice: {{invoice.timestamp | time:"h:i A" }}</div> 
+                </td>
+            </tr>
+        </table>
+        
+        <p> </p>
+        <table class="mytable" style="margin-left: 20px; margin-right:20px; margin-top:150px;border-collapse: collapse;border-spacing: 0;">
+            <thead style="margin-left: 20px;margin-right: 20px;">
+                <tr>
+                    <td style="width:20px">#</td>
+                    <td>Project Name</td>
+                    <td>Project Place</td>
+                    <td>Invoice Name</td>
+                    <td style="width:125px">Date</td>
+                    {% if paymentinvoice %}
+                    <td style="width:130px;">Amount</td>
+                    {% else %}
+                    <td style="width:130px;">Transport No</td>
+                    {% endif %}
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr style="padding-top: 8px;">
+                    <td class="serial" style="width:20px">1</td>
+                    <td>{{invoice.project}}</td>
+                    {% if paymentinvoice %}
+                    <td>{{invoice.projectplace}}</td>
+                    {% else %}
+                    <td>{{invoice.place}}</td>
+                    {% endif %}
+                    <td>{{invoice.employee}}</td>
+                    <td style="width:125px">{{invoice.timestamp | date:"d M, Y"}}</td>
+                    {% if paymentinvoice %}
+                    <td class="amount" style="width:130px">{{invoice.amount}}</td>
+                    {% else %}
+                    <td class="amount" style="width:130px">{{invoice.transportnumber}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+  </body>
+</html>

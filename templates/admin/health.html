@@ -1,0 +1,59 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block sustainabilityactive %}active{% endblock %}
+
+{% block body %}
+
+    <div class="mt-80 container-fluid">
+        <div class="breadcrumb-div d-flex justify-content-between"">
+            <div class="">
+                <h5 class="text-light">Sustainability</h5>
+            </div>
+            <div class="">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'sustainability' %}">Sustainability</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Health And Safety</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 static">
+            <h3 class="heading display-6">Health And Safety</h3>
+
+            <div class="row" dir="ltr">
+                <div class="col-sm-12">
+                    <h4 dir="ltr">Mission</h4>
+                    <p dir="ltr">Our core business involves managing risk day in and day out in all operations. It is our responsibility to safeguard our people property and environment. We perform our business as per the integrated HSE policy.</p>
+
+                    <h5 dir="ltr">HSE Slogan</h5>
+
+                    <p dir="ltr">"All Accidents are Preventable"</p>
+
+                    <ul class="ongc-ul" dir="ltr">
+                        <li>Sustainable Development is the overarching working template in ONGC and this finds expression in our commitment to continually enhance the triple bottom line benchmarks of economic, environmental and social performance.</li>
+                        <li>We realized that focused carbon management efforts were an ideal route to cover the elements of our business specific sustainable development issues across the environmental dimension. A critical area of environmental sustainability is mitigation of global greenhouse gas from operations.</li>
+                        <li>We have six registered CDM projects (a unique feat amongst CPSEs) with a total saving of 2,09,643 tons of CO2 per year for 10 years. Six more CDM projects are under registration which will significantly add to the portfolio of our carbon credits.</li>
+                        <li>- It is an organizational objective for us to progressively reduce our carbon footprint, by working towards reduction in both direct and indirect energy consumption. We plan to make a comprehensive, organization wide GHG inventory that covers both direct and indirect energy over the next two to three years. This would provide the overall carbon footprint of the organization and help identify mitigation opportunities. A pilot exercise to assess GHG footprint of our representative operating units has already been completed. This pilot is now being scaled up into a pan ONGC GHG accounting exercise to assess our organisational carbon footprint and importantly to undertake a rigorous study for identification of all feasible GHG mitigation opportunities.</li>
+                    </ul>
+
+                    <h5 dir="ltr">National Gas Star program</h5>
+
+                    <ul class="ongc-ul" dir="ltr">
+                        <li>An innovative, interesting climate change mitigation work program for us is the identification, quantification and reduction of fugitive methane emissions from our production operations. For this we entered into an MoU with the United States Environment Protection Agency (USEPA) in August 2007, to undertake Methane to Market (now GMI) projects in ONGC under its Natural Gas STAR Program to promote development, implementation and reporting of profitable, voluntary methane emission mitigation activities.</li>
+                        <li>The technical collaboration between the U.S. EPA and the Oil and Natural Gas Corporation (ONGC) under the MoU, administered under the GMI Partnership, has built a strong base of knowledge and capacity within ONGC to cost-effectively reduce methane emissions now and into the future.</li>
+                    </ul>
+
+                    <h5 dir="ltr">Sustainable Water Management</h5>
+
+                    <ul class="ongc-ul" dir="ltr">
+                        <li>We are also working on a company-wide "Sustainable Water Management Strategy" aimed at reduction in specific fresh water consumption and reporting on the water footprint based on internationally recognised standards and practices. Our action plans include baseline assessment of water use, build reporting capability in the short term followed by operation specific sustainable water management plans, location specific SOPs with water recycling, and reuse targets as appropriate in the medium to long term.</li>
+                    </ul>
+                </div>
+            </div>
+                
+        </div>
+    </div>
+{% endblock %}

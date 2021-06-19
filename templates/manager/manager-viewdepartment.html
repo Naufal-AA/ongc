@@ -1,0 +1,58 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+
+{% block department %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Departments</li>{% endblock %}
+{% block manager %}
+	
+    <div class="mt-3">
+        <div class="projects">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Department</h6>
+                    <span class="las la-ellipsis-h"></span>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table width="100%" class="department-table">
+                            <thead>
+                                <tr>
+                                    <td>Sl No</td>
+                                    <td>Department</td>
+                                    <td>Employee</td>
+                                    <td>Allocated Projects</td>
+                                    <td>Completed Projects</td>
+                                    <td>In Progress Projects</td>
+                                    <td>Pending Projects</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in designationlist %}
+                                <tr class="bs-table-row">
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{file.department}}</td>
+                                    <td class="my-secondary fw-bold text-center">{{file.employee |stringformat:"02d" |default:"00" }}</td>
+                                    <td class="my-primary fw-bold text-center">{{file.totalproject |stringformat:"02d" |default:"00"}}</td>
+                                    <td class="my-success fw-bold text-center">{{file.completed |stringformat:"02d" |default:"00"}}</td>
+                                    <td class="single-3 fw-bold text-center">{{file.inprogress |stringformat:"02d" |default:"00"}}</td>
+                                    <td class="my-danger fw-bold">{{ file.pending |stringformat:"02d" |default:"00"}}</td>
+                                </tr>
+                                {% empty %}
+                                <tr class="bs-table-row">
+                                    <td></td> 
+                                    <td colspan="5">
+                                        <img src="{% static 'images/empty.png' %}" alt="" class="w-100 img-fluid rounded">
+                                    </td>
+                                    <td></td>    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

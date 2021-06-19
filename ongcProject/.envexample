@@ -1,0 +1,14 @@
+SECRET_KEY=securitykey
+DEBUG=True/False
+NAME=dbname
+USER=usernameofpostgresql
+PASSWORD=password
+HOST=hostnameofpostgresql
+PORT=portnumber
+EMAIL_USE_TLS=True/False
+EMAIL_HOST=EMAIL_HOST_name
+EMAIL_HOST_USER=abc@gmail.com
+EMAIL_HOST_PASSWORD=password
+EMAIL_PORT=emailportnumber
+EMAIL_BACKEND=emailbackend
+DEFAULT_FROM_EMAIL=xyz@gmail.com

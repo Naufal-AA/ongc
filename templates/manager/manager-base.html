@@ -1,0 +1,397 @@
+{% extends "manager/base.html" %}
+{% load static %}
+
+{% block useractive %}active{% endblock %}
+{% block style %}
+    <link href="{% static 'css/manager.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <!-- Main Area -->
+	<main class="admin-main">
+		<div class="admin">
+            <input type="checkbox" id="nav-toggle">
+            <div class="sidebar">
+                <div class="sidebar-brand">
+                    <h5>
+                        <span>
+                            <img src="{% static 'img/adminlogo.png' %}" width="40px" height="40px" alt="">
+                        </span>
+                        <span class="dashboard-name"> O N G C</span>
+                    </h5>
+                </div>
+        
+                <div class="sidebar-menu">
+                    <ul>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                            <a href="{% url 'dashboard' %}" {% block dashboard %}{% endblock %}>
+                                <span class="fas fa-chart-pie fs-5"></span>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Add Project">
+                            <a href="{% url 'addproject' %}" {% block addproject %}{% endblock %}>
+                                <span class="las la-edit"></span>
+                                <span>Add Project</span>
+                            </a>
+                        </li>
+                        <li  data-bs-toggle="tooltip" data-bs-placement="right" title="View Projects">
+                            <a href="{% url 'viewproject' %}" {% block viewproject %}{% endblock %}>
+                                <span class="las la-chalkboard"></span>
+                                <span>View Projects</span>
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="View Request">
+                            <a href="{% url 'viewrequest' %}" {% block viewrequest %}{% endblock %}>
+                                <span class="las la-project-diagram"></span>
+                                {% if pendingrequest %}<sup class="badge rounded-pill bg-danger" style="margin-left:10px;">{{pendingrequest}}</sup><span style="margin-left:-30px;">View Request </span>
+                                {% else %}<span>View Request</span>{% endif %}
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Employees">
+                            <a href="{% url 'viewemployee' %}" {% block employee %}{% endblock %}>
+                                <span class="las la-users"></span>
+                                <span>Employee</span>
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Department">
+                            <a href="{% url 'viewdepartment' %}" {% block department %}{% endblock %}>
+                                <span class="las la-school"></span>
+                                <span>Department</span>
+                            </a>
+                        </li>
+                        <li data-bs-toggle="tooltip" data-bs-placement="right" title="Notification">
+                            <a href="{% url 'notification' %}" {% block notification %}{% endblock %}>
+                                <span class="bi bi-bell fs-5"></span>
+                                <sup class="badge rounded-pill bg-success">{{notificationcount}}</sup>
+                                <span style="margin-left:-20px;">Notification</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+            <div class="main-content">
+                <header>
+                    <h5>
+                        <label for="nav-toggle">
+                            <span class="las la-bars"></span>
+                        </label>
+                        Dashboard
+                    </h5>
+        
+                    <div class="search-wrapper">
+                        <form class="d-flex" action="{% url 'searchmanager' %}"  method="GET">
+                            <input class="form-control me-2" type="search" placeholder="Search here" name="q" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit"><span class="bi bi-search"></span></button>
+                        </form>
+                    </div>
+                    
+                    <div class="user-wrapper">
+                        {% if request.user.manager_user.image %}
+                        <img src="{{request.user.manager_user.image.url}}" alt="" width="25px" height="25px">
+                        {% else %}
+                        <img src="{% static 'images/User_Icon.jpg' %}" alt="" width="25px" height="25px">
+                        {% endif %}
+
+                        <div>
+                            <p class="lead lh-1 text-capitalize"> {{request.user.get_full_name}}</p>
+                            <a class="dropdown-toggle" id="manager-toggle" role="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <small>{{request.user.manager_user.designation}}</small>
+                            </a>
+    
+                            <ul class="dropdown-menu" aria-labelledby="manager-toggle">
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#admin-profile" href="#admin-profile">
+                                        <span class="las la-user"></span>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+    
+                                <li class="dropdown-submenu mb-3">
+                                    <a tabindex="-1" href="#" class="dropdown-item">
+                                        <span class="las la-cog"></span>
+                                        <span>Settings</span>
+                                    </a>
+    
+                                    <ul class="dropdown-menu setting-menu">
+                                          <li>
+                                            <a data-bs-toggle="modal" data-bs-target="#change-user-name1" href="#change-user-name1">
+                                                <span class="las la-user-edit"></span>
+                                                <span>Change Username</span>
+                                            </a>
+                                        </li>
+                                      
+                                        <li>
+                                            <a data-bs-toggle="modal" data-bs-target="#change-password1" href="#change-password1">
+                                                <span class="las la-lock-open"></span>
+                                                <span>Change Password</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+    
+                                <li class="mt-3">
+                                    <hr class="dropdown-divider text-light">
+                                </li>
+    
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'logoutmanager' %}">
+                                        <span class="las la-sign-out-alt"></span>
+                                        <span>Sign Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+        
+                <main>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="{% url 'index' %}"><span class="las la-home"></span></a></li>
+                          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Admin</a></li>
+                            {% block breadcrumb %}{% endblock %}
+                        </ol>
+                    </nav>
+                
+        
+                    <div class="cards">
+                        <div class="card-single">
+                            <div>
+                                <h4 class="single-1">{{project}}</h4>
+                                <span class="card-hover">Projects</span>
+                            </div>
+                            <div><span class="las la-chalkboard card-hover"></span></div>
+                        </div>
+                        
+                        <div class="card-single">
+                            <div>
+                                <h4 class="single-2">{{employee}}</h4>
+                                <span class="card-hover">Employee</span>
+                            </div>
+                            <div><span class="las la-users card-hover"></span></div>
+                        </div>
+                        
+                        <div class="card-single">
+                            <div>
+                                <h4 class="single-3">{{department}}</h4>
+                                <span class="card-hover">Department</span>
+                            </div>
+                            <div><span class="las la-school card-hover"></span></div>
+                        </div>
+        
+                        <div class="card-single">
+                            <div>
+                                <h4 class="single-4"><i style="font-family: arial, sans-serif;">&#8377;</i>{{payment}}</h4>
+                                <span class="card-hover">Income</span>
+                            </div>
+                            <div><span class="fab fa-google-wallet card-hover"></span></div>
+                        </div>
+                    </div>
+        
+                    <!-- Manager content -->
+                    {% block manager %}
+                        <!-- Main Content Area -->
+                    {% endblock %}
+                    <!-- End Manager -->
+                </main>
+            </div>
+        </div>
+    
+        
+        <!-- View Profile modal dialog -->
+        <div class="modal fade" id="admin-profile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="admin-profileLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+            
+                    <div class="modal-header m-0 pb-0">
+                        <h5 class="modal-title" id="admin-profileLabel"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+    
+                    <div class="modal-body profile-body m-0 p-0">
+                        <div class="col-sm-10 offset-sm-1">
+                            <div class="profile p-0">
+                                <div class="newprofilepic top-100 start-50 translate-middle-x">
+                                    <form action="{% url 'dashboard' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% if request.user.manager_user.image %}
+                                        <img src="{{request.user.manager_user.image.url}}" id="newphoto" alt="Profile" class="img-fluid mx-auto d-block mt-0">
+                                        {% else%}
+                                        <img src="{% static 'images/User_Icon.jpg' %}" id="newphoto" alt="Profile" class="img-fluid mx-auto d-block mt-0">
+                                        {% endif %}
+                                        <input type="file" id="myuploadfile" name="myuploadfile" onchange="form.submit()" accept="image/png, image/jpeg">
+                                        <label for="myuploadfile" id="myuploadBtn">Change Profile</label>
+                                    </form>
+                                </div>
+                            </div>
+    
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h4 class="align-self-start mb-0 text-light">{{request.user.username}}</h4>
+                                    <p class="text-success">{{request.user.manager_user.designation}}</p>
+                                </li>
+                                <li class="list-group-item"><small>{{request.user.get_full_name}}</small><hr></li>
+                                <li class="list-group-item"><small>{{request.user.email}}</small><hr></li>
+                                <li class="list-group-item"><small>{{request.user.phone}}</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- View Profile modal dialog -->
+        
+        <!-- Change Username modal dialog -->
+        <div class="modal fade" id="change-user-name1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="change-user-name1Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+            
+                    <div class="modal-header mt-0 mb-0 pb-0">
+                        <h5 class="modal-title" id="change-user-name1Label"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+    
+                    <div class="modal-body m-0 p-0">
+                        <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    </div>
+    
+                    <div class="col-sm-10 offset-sm-1 mt-5 p-3">
+                        
+                        {% with urlmanagerid="Change-Username" %}
+                        <form class="needs-validation" novalidate action="{% url 'changemanager' urlmanagerid %}" method="POST">
+                            <h5>Change User Name</h5>
+                            {% csrf_token %}
+                            {% if message %}
+                            <div class="alert alert-{{messageclass}} alert-dismissible fade show" role="alert">
+                                <strong>{{messageheader}}</strong> {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+
+                            <h6 class="text-success mb-3">Current Username:&nbsp;&nbsp;<strong class="badge rounded-pill bg-light text-success">{{request.user.username}}</strong></h6>
+                            <input type="hidden" name="currentusernamemanager" value="{{request.user.username}}">
+                            <div class="mb-3 position-relative">
+                                <label for="name1" class="form-label">New User Name</label>
+                                <input type="text" class="form-control form-control-sm register" placeholder="Username" id="name1" name="changeusernamemanager" pattern="^[0-9A-Za-z-_@.+]*$" autocomplete="off" required aria-describedby="nameHelp">
+                                <div id="nameHelp" class="form-text">use this form to change a member's username. All existing content will continue to be associated with this same user.</div>
+                                
+                                <div class="invalid-tooltip">
+                                    Username contain only letters, numbers, and @.+-_ characters
+                                </div>
+                            </div>
+                
+                            <div class="d-grid gap-2 pt-3">
+                                <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="changeusername1" name="Change-Username1">Change Username</button>
+                            </div>
+                          </form>
+                          {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- Change Username modal dialog -->
+    
+        <!-- Change Password modal dialog -->
+        <div class="modal fade" id="change-password1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="change-password1Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+            
+                    <div class="modal-header mt-0 mb-0 pb-0">
+                        <h5 class="modal-title" id="change-password1Label"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&#x2715;</button>
+                    </div>
+    
+                    <div class="modal-body m-0 p-0">
+                        <img src="{% static 'img/logo.png' %}" width="80px" height="80px" alt="ONGC" class="img-fluid rounded mx-auto d-block mt-0">
+                    </div>
+    
+                    <div class="col-sm-10 offset-sm-1 mt-5 p-3">
+                        
+                        {% with urlmanagerid1="Change-Password" %}
+                        <form class="needs-validation" novalidate action="{% url 'changemanager' urlmanagerid1 %}" method="POST">
+                            <h5>Change Password</h5>
+                            {% csrf_token %}
+                            {% if message1 %}
+                            <div class="alert alert-{{messageclass1}} alert-dismissible fade show" role="alert">
+                                <strong>{{messageheader1}}</strong> {{message1}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mb-3 position-relative">
+                                <label for="cpassword1" class="form-label">Current Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="Current Password" id="cpassword1" name="cpassword1" required>
+                                
+                                <div class="invalid-tooltip">
+                                    Please provide your current password!
+                                </div>
+                            </div>
+    
+                            <div class="mb-3 position-relative">
+                                <label for="npassword1" class="form-label">New Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="New Password" id="npassword1" name="npassword1" minlength="4" maxlength="20" required>
+                                
+                                <div class="invalid-tooltip">
+                                    Your password must be 4-20 characters long!
+                                </div>
+                            </div>
+    
+                            <div class="mb-3 position-relative">
+                                <label for="cnpassword1" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control form-control-sm register" placeholder="Confirm New Password" id="cnpassword1" name="cnpassword1" required>
+                                
+                                <div class="invalid-tooltip">
+                                    Please confirm Password!
+                                </div>
+                            </div>
+                
+                            <div class="d-grid gap-2 pt-3">
+                                <button type="submit" class="btn btn-outline-success sign-in btn-sm mt-3 mb-3" value="changepassword1" name="changepassword1">Change Password</button>
+                            </div>
+                        </form>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div> 
+	</main>
+
+
+    {% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+
+    {% block script %}
+        <script>
+            // tooltip
+            let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        </script>
+        {% if modalmanager %}
+            {{modalmanager | safe}}
+        {% endif %}
+
+        {% block managerscript %}
+        {% endblock %}
+
+        <script>
+            var password3 = document.getElementById("npassword1")
+            , confirm_password3 = document.getElementById("cnpassword1");
+    
+            function validatePassword3(){
+            if(password3.value != confirm_password3.value) {
+                confirm_password3.setCustomValidity("Passwords Does not Match");
+            } else {
+                confirm_password3.setCustomValidity('');
+            }
+            }
+    
+            password3.onchange = validatePassword3;
+            confirm_password3.onkeyup = validatePassword3;
+        </script>
+    {% endblock %}

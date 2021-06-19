@@ -1,0 +1,282 @@
+{% extends "manager/manager-base.html" %}
+{% load static %}
+{% load to_newline %}
+
+{% block employee %}class="active"{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Employee</li>{% endblock %}
+{% block manager %}
+
+    <div class="mt-3">
+        {% if totalcount %}
+        <div class='row my-5'>
+            <div class='col-12 py-0'>
+                <h6 class='my-0 py-0 text-secondary display-6 fs-3'><span class="bi bi-search"></span> {{ totalcount }} results for: <b>{{ query }}</b></h6>
+            </div>
+        </div>
+        {% elif searchhome %}
+        <img src="{% static 'images/searchresult.jpg' %}" alt="" class="w-100 img-fluid">
+        {% else %}
+        <img src="{% static 'images/no result.jpg' %}" alt="" class="w-100 img-fluid">
+        {% endif %}
+        <div class="projects">
+            {% if query %}
+
+                {% if myemployeelist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Employee</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+    
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Employee ID</td>
+                                        <td>Employee Name</td>
+                                        <td>Email</td>
+                                        <td>Designation</td>
+                                        <td>Phone Number</td>
+                                        <td>Gender</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in myemployeelist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{file.designation.code}}</td>
+                                        <td>{{file.user.full_name}}</td>
+                                        <td>{{file.user.email}}</td>
+                                        <td>{{file.designation.name}}</td>
+                                        <td>{{file.user.phone}}</td>
+                                        <td>{{file.user.gender | title}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if myprojectlist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Projects</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+    
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Project Title</td>
+                                        <td>Department</td>
+                                        <td>Start Date</td>
+                                        <td>Due Date</td>
+                                        <td>Priority</td>
+                                        <td>Filename</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in myprojectlist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{file.title | title}}</td>
+                                        <td>{{file.forwardto | to_newline | linebreaksbr}}</td>
+                                        <td>{{file.timestamp | date:"d M, Y"}}</td>
+                                        <td>{{file.duedate | date:"d M, Y"}}</td>
+                                        <td>
+                                            {% if file.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                            {% if file.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                            {% if file.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                        </td>
+                                        <td>{{file.projectfile.name | to_filename | truncatechars:15}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if myworklist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Works</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Project Title</td>
+                                        <td>Department</td>
+                                        <td>Employee</td>
+                                        <td>Due Date</td>
+                                        <td>Priority</td>
+                                        <td>Status</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in myworklist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{file.projectid.title}}</td>
+                                        <td>{{file.empid.designation.name}}</td>
+                                        <td>{{file.empid.user.get_full_name}}</td>
+                                        <td>{{file.projectid.duedate | date:"d M, Y"}}</td>
+                                        <td>
+                                            {% if file.projectid.priority == 'low'%}<span class="badges my-danger">Low</span>{% endif %}
+                                            {% if file.projectid.priority == 'medium'%}<span class="badges my-primary">Medium</span>{% endif %}
+                                            {% if file.projectid.priority == 'high'%}<span class="badges my-success">High</span>{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if file.status == 'Completed'%}<span class="status purple"></span>
+                                            review
+                                            {% endif %}
+
+                                            {% if file.status == 'In Progress'%}<span class="status pink"></span>
+                                            in Progress
+                                            {% endif %}
+
+                                            {% if file.status == 'Pending'%}<span class="status orange"></span>
+                                            Pending
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if mykeyrequestlist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Key Request</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+    
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Employee ID</td>
+                                        <td>Employee Name</td>
+                                        <td>Employee Email</td>
+                                        <td>Designation</td>
+                                        <td>Project Title</td>
+                                        <td>Reason</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in mykeyrequestlist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{file.empid.designation.code}}</td>
+                                        <td>{{file.empid.user.get_full_name}}</td>
+                                        <td>{{file.empid.user.email}}</td>
+                                        <td>{{file.empid.designation.name}}</td>
+                                        <td>{{file.projectid.title}}</td>
+                                        <td>{{file.reason}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if mypaymentlist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Payments</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+    
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Employee</td>
+                                        <td>Project Title</td>
+                                        <td>Project place</td>
+                                        <td>Amount</td>
+                                        <td>Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in mypaymentlist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{file.employee}}</td>
+                                        <td>{{file.project | title}}</td>
+                                        <td>{{file.projectplace | capfirst}}</td>
+                                        <td>{{file.amount | default:"0.0" | floatformat | paymentmode}}</td>
+                                        <td>{{file.timestamp | date:"d M, Y"}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if mytransportlist %}
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h6>Transportation</h6>
+                        <span class="las la-ellipsis-h"></span>
+                    </div>
+    
+                    <div class="card-body">
+                        <div class="table-responsive"> 
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <td>Sl No</td>
+                                        <td>Employee</td>
+                                        <td>Transportation Number</td>
+                                        <td>Project Title</td>
+                                        <td>Project place</td>
+                                        <td>Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for file in mytransportlist %}
+                                    <tr class="bs-table-row">
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{file.employee}}</td>
+                                        <td>{{file.transportnumber | floatformat:"0"}}</td>
+                                        <td>{{file.project | title}}</td>
+                                        <td>{{file.place | capfirst}}</td>
+                                        <td>{{file.timestamp | date:"d M, Y"}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
