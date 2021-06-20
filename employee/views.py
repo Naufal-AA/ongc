@@ -91,7 +91,7 @@ def register(request):
                                             <img src="https://cdn.dribbble.com/users/1551941/screenshots/6346538/thankyoudribble.gif" width="70%" alt="">
                                             <h3 style="text-align: start; padding-left:60px; font-weight: 600;">Hey {first} {last}!</h3>
                                             <p style="text-align: start; padding-left:60px; font-weight: 400;">Please Verify your email address. so we know that its really you!</p>
-                                            <br><a href="http://127.0.0.1:8000/Employee/verify/{auth_token}" style="font-weight:500; text-decoration: none; color: whitesmoke; background: #198754; padding: 10px 30px; margin-left: 20px; border-radius: 6px;" onMouseOver="this.style.backgroundColor='#116d43'"
+                                            <br><a href="https://ongc.herokuapp.com/Employee/verify/{auth_token}" style="font-weight:500; text-decoration: none; color: whitesmoke; background: #198754; padding: 10px 30px; margin-left: 20px; border-radius: 6px;" onMouseOver="this.style.backgroundColor='#116d43'"
                                             onMouseOut="this.style.backgroundColor='#198754'" >Verify Email</a>
                                         </div>
                                         <br>
@@ -300,7 +300,7 @@ def loginPage(request):
                                                 <!--<img src="https://cdn.dribbble.com/users/1354544/screenshots/3305658/_dribbble_comp.gif" width="70%" alt="">-->
                                                 <h2 style="text-align: start; padding-left:50px;color: #363434; font-weight: 300; ">Hi {user.first_name} {user.last_name},</h2>
                                                 <p style="text-align: start; padding-left:50px; margin-bottom: 30px;">A request has been received to change the password for your ONGC account </p>
-                                                <a href="http://127.0.0.1:8000/Employee/Reset-Password/{token}" style="font-weight:500; text-decoration: none; color: whitesmoke; background: #198754; padding: 10px 30px; margin-left: 20px; border-radius: 6px;" onMouseOver="this.style.backgroundColor='#116d43'"
+                                                <a href="https://ongc.herokuapp.com/Employee/Reset-Password/{token}" style="font-weight:500; text-decoration: none; color: whitesmoke; background: #198754; padding: 10px 30px; margin-left: 20px; border-radius: 6px;" onMouseOver="this.style.backgroundColor='#116d43'"
                                                 onMouseOut="this.style.backgroundColor='#198754'" >Reset Password</a>
                                                 <p style="text-align: start; padding-left:50px; margin-top: 30px; margin-bottom: 50px;">if you did not initiate this request, please contact us immediately at <a href="" style="text-decoration: none; color: #198754;" onMouseOver="this.style.color='#198754'" onMouseOut="this.style.color='#198754a8'" >support@ongc.com</a></p>
                                                 <p style="text-align: start; padding-left:50px; margin-bottom: 0;">Thank you,</p>
