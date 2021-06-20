@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 #ALLOWED_HOSTS = []
 
 DEBUG = bool(strtobool(os.environ.get('DEBUG', 'True')))
-ALLOWED_HOSTS =  ['*']
+ALLOWED_HOSTS =  ['https://ongc.herokuapp.com/']
 
 
 # Application definition
