@@ -1,6 +1,5 @@
 xhtml2pdf==0.2.5
 django-environ==0.4.5
-environ==1.0
 Django==3.2.4
 timeago==1.0.15
 django_heroku==0.3.1
